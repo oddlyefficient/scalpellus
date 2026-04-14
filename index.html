@@ -1,40 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Scalpellus</title>
-
-  <!-- Auto redirect after 3 seconds -->
-  <meta http-equiv="refresh" content="3; url=/youtube">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     body {
       margin: 0;
-      background: #000;
+      background-color: #0d0d0d;
+      color: #ffffff;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    .container {
+      padding: 80px 60px;
+      max-width: 700px;
+    }
+
+    h1 {
+      font-size: 56px;
+      font-weight: 500;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: 28px;
+      font-weight: 400;
+      color: #bbbbbb;
+      margin-bottom: 40px;
+    }
+
+    a {
+      text-decoration: none;
       color: white;
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      text-align: center;
+      border: 1px solid white;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+
+    a:hover {
+      background-color: white;
+      color: black;
     }
   </style>
 </head>
 
 <body>
-  <div>
-    <h1>Scalpellus</h1>
-    <p>Under Construction</p>
-    <p>Redirecting to YouTube...</p>
-    <p><a href="/youtube" style="color:#22c55e;">Click here if not redirected</a></p>
-  </div>
+  <div class="container">
+    <h1>SCALPELLUS</h1>
+    <h2>Page Under Construction</h2>
 
-  <script>
-    setTimeout(() => {
-      window.location.href = "/youtube";
-    }, 3000);
-  </script>
+    <a href="https://youtube.com/@scalpellus" target="_blank">
+      Visit YouTube
+    </a>
+  </div>
 </body>
 </html>
