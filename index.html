@@ -1,61 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Scalpellus</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scalpellus</title>
 
-  <style>
-    body {
-      margin: 0;
-      background-color: #0d0d0d;
-      color: #ffffff;
-      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    }
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  background: radial-gradient(circle at center, #1a1a2e, #000000);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
 
-    .container {
-      padding: 80px 60px;
-      max-width: 700px;
-    }
+/* Glow effect */
+.glow {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255, 0, 100, 0.3), transparent 70%);
+  border-radius: 50%;
+  filter: blur(80px);
+}
 
-    h1 {
-      font-size: 56px;
-      font-weight: 500;
-      margin-bottom: 20px;
-    }
+/* Content */
+.container {
+  text-align: center;
+  z-index: 2;
+}
 
-    h2 {
-      font-size: 28px;
-      font-weight: 400;
-      color: #bbbbbb;
-      margin-bottom: 40px;
-    }
+h1 {
+  font-size: 64px;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
 
-    a {
-      text-decoration: none;
-      color: white;
-      border: 1px solid white;
-      padding: 12px 24px;
-      border-radius: 30px;
-      font-size: 14px;
-      transition: 0.3s;
-    }
+.tm {
+  font-size: 16px;
+  vertical-align: super;
+  margin-left: 2px;
+}
 
-    a:hover {
-      background-color: white;
-      color: black;
-    }
-  </style>
+h2 {
+  font-size: 22px;
+  color: #cccccc;
+  letter-spacing: 6px;
+  margin-bottom: 40px;
+}
+
+/* Button */
+a {
+  text-decoration: none;
+  color: white;
+  border: 1px solid white;
+  padding: 12px 30px;
+  border-radius: 30px;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+a:hover {
+  background: white;
+  color: black;
+}
+</style>
 </head>
 
 <body>
-  <div class="container">
-    <h1>SCALPELLUS</h1>
-    <h2>Page Under Construction</h2>
 
-    <a href="https://youtube.com/@scalpellus" target="_blank">
-      Visit YouTube
-    </a>
-  </div>
+<div class="glow"></div>
+
+<div class="container">
+  <h1>Scalpellus<span class="tm">™</span></h1>
+  <h2>COMING SOON</h2>
+
+  <a href="https://youtube.com/@scalpellus" target="_blank">
+    Visit YouTube
+  </a>
+</div>
+
 </body>
 </html>
