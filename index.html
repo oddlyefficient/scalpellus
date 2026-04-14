@@ -3,29 +3,68 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#000000">
 <title>Scalpellus</title>
+
+<!-- Instant background (prevents white flash) -->
+<style>
+html, body {
+  background-color: #000;
+}
+</style>
 
 <style>
 body {
   margin: 0;
-  height: 100vh;
-  background: radial-gradient(circle at center, #1a1a2e, #000000);
+  min-height: 100vh;
+  background: radial-gradient(circle at center, #0a0f1f, #000000);
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
   overflow: hidden;
+  opacity: 0;
+  animation: fadeIn 1.5s ease forwards;
 }
 
-/* Glow effect */
+/* Fade-in */
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+/* Base glow (FIXED) */
 .glow {
-  position: absolute;
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(255, 0, 100, 0.3), transparent 70%);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 800px;
+  height: 800px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(0, 150, 255, 0.25), transparent 70%);
   border-radius: 50%;
-  filter: blur(80px);
+  filter: blur(120px);
+  animation: pulse 6s ease-in-out infinite;
+  pointer-events: none;
+  will-change: transform;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+  50% { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+}
+
+/* Cursor glow (FIXED) */
+.cursor-glow {
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(0, 150, 255, 0.3), transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  filter: blur(100px);
 }
 
 /* Content */
@@ -74,15 +113,44 @@ a:hover {
 <body>
 
 <div class="glow"></div>
+<div class="cursor-glow" id="cursorGlow"></div>
 
 <div class="container">
   <h1>Scalpellus<span class="tm">™</span></h1>
   <h2>COMING SOON</h2>
 
-  <a href="https://youtube.com/@scalpellus" target="_blank">
+  <a href="https://youtube.com/YOUR_CHANNEL_LINK" target="_blank">
     Visit YouTube
   </a>
 </div>
+
+<script>
+const cursor = document.getElementById('cursorGlow');
+
+let lastX = 0;
+let lastY = 0;
+let lastTime = Date.now();
+
+document.addEventListener('mousemove', (e) => {
+  const now = Date.now();
+  const dx = e.clientX - lastX;
+  const dy = e.clientY - lastY;
+  const dt = now - lastTime;
+
+  const speed = Math.sqrt(dx * dx + dy * dy) / (dt || 1);
+
+  // Speed-based intensity
+  const intensity = Math.min(speed * 0.5, 1);
+
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+  cursor.style.opacity = 0.2 + intensity;
+
+  lastX = e.clientX;
+  lastY = e.clientY;
+  lastTime = now;
+});
+</script>
 
 </body>
 </html>
