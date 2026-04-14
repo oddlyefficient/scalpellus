@@ -5,26 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Scalpellus</title>
 
+  <!-- Auto redirect after 3 seconds -->
+  <meta http-equiv="refresh" content="3; url=/youtube">
+
   <style>
     body {
       margin: 0;
-      background: black;
+      background: #000;
+      color: white;
+      font-family: Arial, sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-    }
-
-    img {
-      max-width: 90%;
-      max-height: 90%;
+      text-align: center;
     }
   </style>
 </head>
 
 <body>
-  <a href="/youtube">
-    <img src="under-construction.png" alt="Under Construction">
-  </a>
+  <div>
+    <h1>Scalpellus</h1>
+    <p>Under Construction</p>
+    <p>Redirecting to YouTube...</p>
+    <p><a href="/youtube" style="color:#22c55e;">Click here if not redirected</a></p>
+  </div>
+
+  <script>
+    setTimeout(() => {
+      window.location.href = "/youtube";
+    }, 3000);
+  </script>
 </body>
 </html>
