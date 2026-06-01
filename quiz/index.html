@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Anaesthesia MCQ Mock Test | 274 Questions</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(145deg, #e9f0f5 0%, #d9e2ec 100%);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .quiz-container {
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            border-radius: 2rem;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.35);
+            overflow: hidden;
+        }
+
+        .quiz-header {
+            background: #1e2f41;
+            padding: 1.2rem 2rem;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .title {
+            font-weight: 700;
+            font-size: 1.4rem;
+        }
+
+        .counter {
+            background: #2c4c6e;
+            padding: 0.35rem 1rem;
+            border-radius: 60px;
+            font-size: 0.9rem;
+        }
+
+        .progress-bar-container {
+            background: #e2e8f0;
+            height: 8px;
+            width: 100%;
+        }
+
+        .progress-fill {
+            background: #2c7da0;
+            width: 0%;
+            height: 8px;
+            transition: width 0.25s ease;
+        }
+
+        .question-area {
+            padding: 2rem 2rem 1.5rem 2rem;
+        }
+
+        .question-text {
+            font-size: 1.55rem;
+            font-weight: 600;
+            line-height: 1.4;
+            color: #0a1c2f;
+            margin-bottom: 1.8rem;
+            background: #f8fafc;
+            padding: 1rem 1.2rem;
+            border-radius: 1.2rem;
+            border-left: 5px solid #2c7da0;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        .option-btn {
+            background: #f1f5f9;
+            border: 2px solid #cbd5e1;
+            border-radius: 1rem;
+            padding: 0.9rem 1.2rem;
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            color: #0f172a;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: #e6edf4;
+            border-color: #2c7da0;
+            transform: translateX(4px);
+        }
+
+        .feedback {
+            margin: 1rem 0 1.5rem 0;
+            padding: 1rem 1.4rem;
+            border-radius: 1rem;
+            font-weight: 500;
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .feedback.correct {
+            background: #dff9e6;
+            border-left: 6px solid #2b8c4a;
+            color: #14532d;
+            display: flex;
+        }
+
+        .feedback.wrong {
+            background: #ffe6e5;
+            border-left: 6px solid #c73a2b;
+            color: #7f1a0e;
+            display: flex;
+        }
+
+        .explanation-text {
+            font-weight: 400;
+            line-height: 1.45;
+            font-size: 0.96rem;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 0.5rem;
+        }
+
+        button.nav {
+            background: #334155;
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 0.75rem 1.6rem;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+        }
+
+        button.nav:disabled {
+            background: #a0abb9;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        button.nav-primary {
+            background: #1e5f7a;
+        }
+
+        button.nav-primary:hover:not(:disabled) {
+            background: #0e4b63;
+            transform: scale(0.97);
+        }
+
+        .reset-btn {
+            background: #4a5b6e;
+        }
+
+        .reset-btn:hover:not(:disabled) {
+            background: #2c3e4e;
+        }
+
+        .score-area {
+            background: #eef2f6;
+            padding: 0.8rem 2rem;
+            text-align: center;
+            font-weight: 600;
+            border-top: 1px solid #cbd5e1;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 600px) {
+            .question-text {
+                font-size: 1.2rem;
+            }
+            .option-btn {
+                padding: 0.7rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container" id="quizApp">
+    <div class="quiz-header">
+        <span class="title">📚 Anaesthesia MCQ Bank (274 questions)</span>
+        <span class="counter" id="questionCounter">Loading...</span>
+    </div>
+    <div class="progress-bar-container">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="question-area">
+        <div class="question-text" id="questionText">Loading questions...</div>
+        <div class="options-list" id="optionsContainer"></div>
+        <div class="feedback" id="feedbackArea">
+            <div class="feedback-icon" id="feedbackIcon"></div>
+            <div class="explanation-text" id="explanationText"></div>
+        </div>
+        <div class="nav-buttons">
+            <button class="nav reset-btn" id="resetBtn">⟳ Reset Quiz</button>
+            <button class="nav nav-primary" id="nextBtn">Next Question →</button>
+        </div>
+    </div>
+    <div class="score-area" id="scoreDisplay">✅ Score: 0 / 0 (0%)</div>
+</div>
+
+<script>
+// ============================================================
+// COMPLETE QUESTIONS_DATA ARRAY - 274 QUESTIONS
+// ============================================================
+const QUESTIONS_DATA = [
+  { id: 1, text: "Tall peaked T waves in ECG is seen in:", options: ["Hypokalemia", "Hyperkalemia", "Na+ level less than 4 mmol/l", "Hyponatremia", "K+ less than 3 mmol/l"], correct: "b", explanation: "Hyperkalemia reduces the resting membrane potential difference, making cardiomyocytes more excitable and accelerating repolarization phases, which manifests as tall, peaked T waves on ECG." },
+  { id: 2, text: "Which one of the following is commonly used as an intravenous induction agent:", options: ["Sufentanil", "Propofol", "Thiopental", "Sevoflurane"], correct: "b", explanation: "Propofol is a widely used IV anesthetic that rapidly induces unconsciousness through potentiation of GABA-A receptor activity." },
+  { id: 3, text: "Hypercapnia (hypercarbia) is:", options: ["PaO2/FiO2 below 300 mmHg", "PaCO2 above 45 mmHg", "EtCO2 20-45 mmHg", "Increase in PaO2 more than 110 mmHg"], correct: "b", explanation: "Hypercapnia is defined as an arterial carbon dioxide tension (PaCO2) higher than the normal range of 35-45 mmHg." },
+  { id: 4, text: "The second-line drug for treatment of bronchospasm is:", options: ["Amiodarone", "Carbamazepine", "Magnesium sulfate", "Hydrochlorothiazide"], correct: "c", explanation: "Magnesium sulfate acts as a smooth muscle relaxant by blocking calcium influx into bronchial smooth muscle cells, leading to bronchodilation. It is second-line in acute severe asthma." },
+  { id: 5, text: "Regarding postoperative nausea and vomiting (PONV) the following statements are correct, EXCEPT:", options: ["Risk of PONV is higher in male patients.", "The risk of PONV is higher with the use of opioids.", "The rate of PONV is higher in smokers.", "Ondansetron can be used for treatment of PONV."], correct: "c", explanation: "Smoking is a well-established protective factor against PONV; non-smokers have a higher incidence. The statement claiming a higher rate in smokers is false." },
+  { id: 6, text: "Intracranial cause of primary brain injury in patients with coma:", options: ["Brainstem stroke", "Circulatory Shock", "Hypernatremia", "Hepatic failure"], correct: "a", explanation: "A brainstem stroke directly damages the reticular activating system and other critical structures, causing coma as a primary intracranial injury." },
+  { id: 7, text: "The use of antifibrinolytic is indicated in the following conditions, EXCEPT:", options: ["Ongoing traumatic bleeding", "Bleeding due to use of thrombolytic drugs.", "Bleeding due to activation of fibrinolysis", "Bleeding in mild hemophilia A"], correct: "d", explanation: "Antifibrinolytics inhibit plasminogen activation and are indicated for bleeding due to excessive fibrinolysis. Bleeding in hemophilia A results from factor VIII deficiency, not primary hyperfibrinolysis." },
+  { id: 8, text: "The following statements are true regarding an anaphylactoid reaction:", options: ["Mediated by IgE", "Not mediated by antibodies", "Specific marker - D-dimer", "First-line drug - Lorazepam"], correct: "b", explanation: "Anaphylactoid reactions are non-immunologic; they involve direct mast cell degranulation or complement activation without IgE or other antibody involvement." },
+  { id: 9, text: "Contraindications for noninvasive mechanical ventilation include EXCEPT:", options: ["Altered level of consciousness", "Hemodynamic instability", "pH less than 7.3", "Recent meal (full stomach)"], correct: "c", explanation: "pH less than 7.3 is not a contraindication; it is often an indication for initiation of NIV in acute hypercapnic respiratory failure (e.g., COPD exacerbation)." },
+  { id: 10, text: "How many days before planned surgery, Clopidogrel should be canceled?", options: ["2 days", "21 days", "5 days", "7 days"], correct: "d", explanation: "Clopidogrel irreversibly inhibits platelet P2Y12 receptors for the platelet's lifespan (~7-10 days). Stopping 7 days before surgery allows regeneration of functional platelets." },
+  { id: 11, text: "Which immediate action should be taken in case of carbon monoxide poisoning?", options: ["Administration of methylene blue", "Oxygen therapy", "Hyperventilation", "Transfer to mechanical ventilation"], correct: "b", explanation: "High-flow oxygen accelerates CO dissociation from hemoglobin, reducing carboxyhemoglobin half-life from 4-6 hours to ~1 hour." },
+  { id: 12, text: "The sensitive biomarker during pulmonary artery embolism is:", options: ["Fibrinogen", "Platelet concentration", "D-dimer", "Lipase"], correct: "c", explanation: "D-dimer is a fibrin degradation product formed when cross-linked fibrin is broken down by plasmin, making it a highly sensitive (though nonspecific) marker for thrombotic events." },
+  { id: 13, text: "Rhythm in which electrical cardioversion/defibrillation is not indicated:", options: ["Asystole", "Atrial fibrillation", "Coarse ventricular fibrillation", "Ventricular tachycardia"], correct: "a", explanation: "In asystole, there is no electrical activity to reset; shocks are ineffective and may delay more valuable interventions like CPR and epinephrine." },
+  { id: 14, text: "Methods to prevent pulmonary artery embolism includes, EXCEPT:", options: ["Bed rest", "Direct oral anticoagulants", "Use of anticoagulants", "Use of compression stockings on lower extremities"], correct: "a", explanation: "Bed rest promotes venous stasis and immobility, which are risk factors for DVT and subsequent PE. It does not prevent pulmonary embolism." },
+  { id: 15, text: "Preferable route of administration of Morphine in cancer patients is:", options: ["Subcutaneous", "Intravenous", "Intramuscular", "Oral"], correct: "d", explanation: "Oral morphine is non-invasive, convenient, and allows for sustained-release formulations, ideal for chronic cancer pain management (WHO guidelines)." },
+  { id: 16, text: "Which of the following is true for shock?", options: ["Hypotension", "Hypoperfusion to tissues", "Hypoxia", "All of the above"], correct: "d", explanation: "Shock is defined by inadequate tissue perfusion, cellular hypoxia, and hypotension is frequently present. All three are characteristic." },
+  { id: 17, text: "Typical causes of respiratory acidosis except:", options: ["Coma due to traumatic brain injury", "Opioids overdose", "Paracetamol overdose", "COPD", "DKA (Diabetic ketoacidosis)"], correct: "e", explanation: "DKA is a metabolic acidosis from ketone production; it drives hyperventilation (Kussmaul breathing) leading to compensatory respiratory alkalosis, not respiratory acidosis." },
+  { id: 18, text: "Mrs. Karver develops sudden left sided facial droop with dysphagia, and left sided hemiplegia. Immediate CT head shows:", options: ["right sided cerebral hematoma", "right sided hemorrhagic stroke", "right sided cerebral infarction", "brain edema", "left hemisphere infarction"], correct: "a", explanation: "Left-sided deficits localize to the right hemisphere. Sudden onset suggests hemorrhage; immediate CT shows hyperdense hematoma." },
+  { id: 19, text: "Which lab test can evaluate response to antibiotic therapy in sepsis?", options: ["IgG", "C-Reactive Protein (CRP)", "Erythrocyte Sedimentation Rate (ESR)", "Ionized calcium levels", "Protein C levels"], correct: "b", explanation: "CRP rises rapidly with infection and falls quickly with effective treatment, making it ideal for monitoring antibiotic response." },
+  { id: 20, text: "Which is not a cause of hypokalemia?", options: ["Diarrhea", "Insulin administration", "Adrenaline infusion", "Alkalosis", "Acute renal failure"], correct: "e", explanation: "Acute renal failure impairs renal potassium excretion, leading to hyperkalemia, not hypokalemia." },
+  { id: 21, text: "Mr. Kieffer is admitted following an overdose of beta blockers. Which antidote?", options: ["Glucagon", "Levothyroxine", "N-acetylcysteine", "Levoped", "Labetalol"], correct: "a", explanation: "Glucagon bypasses blocked beta receptors by activating adenylate cyclase, increasing cAMP and producing positive inotropic/chronotropic effects." },
+  { id: 22, text: "Typical causes of metabolic alkalosis, EXCEPT:", options: ["Prolonged diarrhea", "Prolonged vomiting", "Long-term therapy with furosemide", "Abuse of antacids"], correct: "a", explanation: "Prolonged diarrhea leads to loss of bicarbonate-rich intestinal secretions, causing metabolic acidosis, not alkalosis." },
+  { id: 23, text: "Which of the following is a muscle relaxant?", options: ["Edrophonium", "Dexmedetomidine", "Pancuronium", "Sugammadex"], correct: "c", explanation: "Pancuronium is a non-depolarizing neuromuscular blocking agent that competitively blocks nicotinic receptors at the motor endplate." },
+  { id: 24, text: "Which of the following are colloids?", options: ["Albumin", "Ringer lactate", "Sodium chloride 0.9%", "Dextrose saline"], correct: "a", explanation: "Albumin is a plasma protein with high molecular weight that exerts oncotic pressure, characteristic of colloids." },
+  { id: 25, text: "Criteria for the assessment of organ dysfunction using qSOFA score include EXCEPT:", options: ["Concentration of white blood cells.", "Altered mental status (GCS ≤14)", "Systolic blood pressure ≤100 mmHg", "Respiratory rate ≥22/min"], correct: "a", explanation: "qSOFA includes: altered mental status, SBP ≤100, RR ≥22. WBC count is not part of qSOFA (part of SIRS)." },
+  { id: 26, text: "Morphine is a:", options: ["Alpha receptor agonist-antagonist", "Delta receptor agonist-antagonist", "Gamma receptor antagonist", "Mu-receptor agonist"], correct: "d", explanation: "Morphine is a classic mu-opioid receptor agonist, mediating analgesia, euphoria, and respiratory depression." },
+  { id: 27, text: "Possible complications of spinal anesthesia include:", options: ["Total spinal block", "Cauda equina syndrome", "Arterial hypotension", "All of the above"], correct: "d", explanation: "Total spinal block, cauda equina syndrome, and arterial hypotension are all recognized complications of spinal anesthesia." },
+  { id: 28, text: "A severe form of acute respiratory distress syndrome is accompanied by:", options: ["Reduction of PaO2/FiO2 less than 100 mmHg", "Reduction of PaO2/FiO2 less than 150 mmHg", "Reduction of lung compliance <40 mL/cm H2O", "Reduction of minute ventilation to less than 8 L/min"], correct: "a", explanation: "Severe ARDS (Berlin criteria) is defined by PaO2/FiO2 ≤100 mmHg with PEEP ≥5 cmH2O." },
+  { id: 29, text: "Which phase of anesthesia has greater risk of complications?", options: ["Induction", "Preanesthesia", "Recovery", "Maintenance"], correct: "a", explanation: "Induction involves rapid physiologic changes: loss of airway reflexes, hypotension, and potential for difficult airway or anaphylaxis." },
+  { id: 30, text: "A sensitive biomarker of sepsis is:", options: ["High sensitivity troponin I", "D-dimer", "Tryptase", "Procalcitonin"], correct: "d", explanation: "Procalcitonin rises rapidly in bacterial infections and sepsis, with high sensitivity and specificity for systemic infection." },
+  { id: 31, text: "Low minute ventilation during mechanical ventilation will cause:", options: ["Respiratory acidosis", "Metabolic alkalosis", "Respiratory alkalosis", "Metabolic alkalosis"], correct: "a", explanation: "Low minute ventilation reduces CO2 elimination, causing hypercapnia and respiratory acidosis." },
+  { id: 32, text: "Glasgow Coma Scale has following criteria:", options: ["Eye opening, verbal response, motor response", "Lifting head, muscular tone, verbal response", "Eye opening, motor response, EEG activity", "Verbal response, motor response to pain, signs of brain dislocation"], correct: "a", explanation: "GCS assesses eye opening (1-4), verbal response (1-5), and motor response (1-6)." },
+  { id: 33, text: "The following conditions are accompanied by a high risk of thrombosis, EXCEPT:", options: ["Leukemia", "Heparin-induced thrombocytopenia", "Antiphospholipid syndrome", "Pregnancy"], correct: "a", explanation: "Leukemia often leads to thrombocytopenia and bleeding diathesis, not primarily high thrombotic risk." },
+  { id: 34, text: "Hypokalemia leads to the following disorders, EXCEPT:", options: ["PR prolongation, ST-segment and T-wave depression, U-wave formation", "Muscle weakness", "Hyperacute (tall) T wave on ECG", "Rhabdomyolysis"], correct: "c", explanation: "Tall, peaked T waves are characteristic of hyperkalemia, not hypokalemia." },
+  { id: 35, text: "Regarding Lidocaine which statement is correct:", options: ["Amide local anesthetic with pKa 7.8", "Amide local anesthetic with pKa 3.5", "Mostly metabolized in kidney", "Ether local anesthetic with pKa of 7.8"], correct: "a", explanation: "Lidocaine is an amide-type local anesthetic with pKa ~7.8; at physiologic pH ~25% is non-ionized." },
+  { id: 36, text: "Which one is the typical cause of respiratory acidosis?", options: ["Bleeding", "Intrapulmonary shunting due to lung collapse", "Chronic obstructive pulmonary disease", "Aspirin overdose"], correct: "c", explanation: "COPD causes chronic airway obstruction and CO2 retention, resulting in respiratory acidosis." },
+  { id: 37, text: "Duration of CPR in cardiac arrest patients receiving IV thrombolysis due to pulmonary embolism:", options: ["Does not change", "Increases", "Decreases", "Depends on thrombolytic drug used"], correct: "b", explanation: "Thrombolysis requires continued CPR to circulate the drug; guidelines recommend 60-90 minutes of CPR post-thrombolytics." },
+  { id: 38, text: "Which one has analgesic properties?", options: ["Midazolam", "Fentanyl", "Propofol", "Succinylcholine"], correct: "b", explanation: "Fentanyl is a potent synthetic opioid agonist at mu-opioid receptors, producing analgesia." },
+  { id: 39, text: "Complications of transfusion of fresh frozen plasma may include, EXCEPT:", options: ["Increased risk of thromboembolism", "Acute hemolysis", "Enteropathy", "Transfusion related acute lung injury (TRALI)"], correct: "c", explanation: "Enteropathy (intestinal disease) is not a recognized complication of FFP transfusion." },
+  { id: 40, text: "Which statement is correct regarding regional anesthesia?", options: ["Contraindicated in patients with CNS diseases", "Cannot be used if patient is psychologically unstable", "Safe in pregnancy", "Cannot be used on children"], correct: "c", explanation: "Neuraxial anesthesia is standard in obstetrics, providing effective pain relief with minimal fetal drug transfer." },
+  { id: 41, text: "The following are true about heat stroke, EXCEPT:", options: ["Defined as hyperthermia exceeding 40°C", "First-line therapy includes paracetamol", "Can develop in healthy young people during exercise", "Rhabdomyolysis is observed in most cases"], correct: "b", explanation: "Paracetamol is ineffective and potentially harmful; rapid external cooling is first-line treatment." },
+  { id: 42, text: "The antidote of paracetamol (acetaminophen) is:", options: ["Lipid emulsion", "N-acetylcysteine", "Ambroxol", "Metamizole sodium"], correct: "b", explanation: "N-acetylcysteine replenishes glutathione stores to detoxify the toxic metabolite NAPQI." },
+  { id: 43, text: "Which one is NOT used to diagnose DIC according to ISTH scale?", options: ["D-dimer concentration", "Fibrinogen level", "Platelets count", "SIRS criteria"], correct: "d", explanation: "ISTH DIC scoring uses platelet count, fibrinogen, D-dimer, and PT. SIRS criteria are for sepsis diagnosis." },
+  { id: 44, text: "In a healthy adult breathing room air, PaO2 is:", options: ["150-170 mmHg", "more than 300 mmHg", "less than 50 mmHg", "75-100 mmHg", "65-50 mmHg"], correct: "d", explanation: "Normal PaO2 on room air is 75-100 mmHg, with a small alveolar-arterial gradient." },
+  { id: 45, text: "Morphine has following side effects EXCEPT:", options: ["Hypothermia", "Cardiac depression", "Sedation", "Hyperventilation"], correct: "d", explanation: "Morphine causes hypoventilation (respiratory depression), not hyperventilation." },
+  { id: 46, text: "A patient on mechanical ventilation has increased peak inspiratory pressure, cyanosis, reduced air entry bilaterally, paradoxical pulse. Most likely cause:", options: ["Esophageal intubation", "Laryngospasm", "Pulmonary embolism", "Bronchospasm"], correct: "d", explanation: "Increased airway resistance, bilateral reduced air entry, and paradoxical pulse suggest diffuse bronchospasm." },
+  { id: 47, text: "Which local anesthetic can cause methemoglobinemia?", options: ["Lignocaine", "Prilocaine", "Ropivacaine", "Bupivacaine"], correct: "b", explanation: "Prilocaine is metabolized to o-toluidine, which oxidizes hemoglobin to methemoglobin." },
+  { id: 48, text: "Total intravenous anesthesia (TIVA) includes:", options: ["Inhalation induction + IV analgesia + inhalational maintenance", "IV Propofol + Sevoflurane", "Enflurane + nitrous oxide", "IV anesthetic + IV analgesic"], correct: "d", explanation: "TIVA uses only intravenous agents (hypnotic + analgesic), avoiding inhalation agents." },
+  { id: 49, text: "You are alone and find a potential victim. Correct BLS algorithm:", options: ["Ensure safety → start CPR → check responsiveness → call EMS", "Check responsiveness → safety → breathing → call EMS → CPR", "Ensure safety → ask help → start CPR → check responsiveness", "Ensure safety → check responsiveness → check breathing → ask for help/AED → activate EMS → start CPR", "Safety → breathing → responsiveness → call EMS → CPR"], correct: "d", explanation: "BLS algorithm: scene safety, check responsiveness and breathing, then call for help/AED and start CPR." },
+  { id: 50, text: "Which statement is FALSE about hypothermic cardiac arrest?", options: ["Hypothermia is core temp <35°C", "If VF persists after 3 shocks, delay further shocks until temp >30°C", "Epinephrine is contraindicated at temp <30°C", "Rewarming is not required during CPR"], correct: "d", explanation: "Rewarming is essential in hypothermic cardiac arrest; CPR alone cannot restore function." },
+  { id: 51, text: "The following are typical changes in postoperative period:", options: ["Diarrhea", "Hypovolemia", "Delirium", "All above"], correct: "d", explanation: "Postoperative patients commonly experience hypovolemia, delirium, and diarrhea from antibiotics or stress response." },
+  { id: 52, text: "The following statement are FALSE regarding Disseminated Intravascular Coagulation (DIC):", options: ["Has greater risk of death.", "Massive rhabdomyolysis can cause DIC.", "Leads to a decrease in INR.", "Accompanied by an increase in D-dimer."], correct: "c", explanation: "In DIC, coagulation factor consumption prolongs PT, increasing INR (not decreasing)." },
+  { id: 53, text: "During adult CPR, amiodarone is administered:", options: ["Immediately after detection of asystole", "Immediately after detection of VF", "After the third ineffective shock", "After the first ineffective defibrillation"], correct: "c", explanation: "Amiodarone 300 mg is given after the third shock for refractory VF/pVT." },
+  { id: 54, text: "Reperfusion in myocardial infarction can be achieved by:", options: ["Aspirin + heparin", "tPA", "PCI", "All of the above"], correct: "b", explanation: "Tissue plasminogen activator (tPA) is a fibrinolytic that directly lyses the occlusive thrombus." },
+  { id: 55, text: "The components of general anesthesia are included, EXCEPT:", options: ["Loss of consciousness", "Analgesia", "Immobility (muscle relaxation)", "Recovery"], correct: "d", explanation: "The triad of general anesthesia is hypnosis, analgesia, and muscle relaxation. Recovery is not a component." },
+  { id: 56, text: "Indication of IV magnesium sulfate during cardiac arrest:", options: ["Asystole", "Pulseless electrical activity", "Torsades de pointes", "Wolff-Parkinson-White"], correct: "c", explanation: "Magnesium sulfate stabilizes cardiac membranes and terminates torsades de pointes." },
+  { id: 57, text: "Principles of post-resuscitation care include all EXCEPT:", options: ["Normoxia and normocapnia", "Sedatives for brain protection", "Therapeutic hypothermia", "Antibiotic prophylaxis"], correct: "d", explanation: "Antibiotic prophylaxis is not routine post-arrest; antibiotics only if infection is suspected." },
+  { id: 58, text: "The use of antifibrinolytic is indicated in the following, EXCEPT:", options: ["Ongoing traumatic bleeding", "Bleeding due to thrombolytics", "Bleeding due to fibrinolysis", "Bleeding in mild hemophilia A"], correct: "d", explanation: "Antifibrinolytics do not correct factor VIII deficiency; they are not primary treatment for hemophilia A." },
+  { id: 59, text: "Factors in Virchow's triad that contribute to thrombosis, EXCEPT:", options: ["Hypercoagulability", "Hemodynamic changes (stasis)", "Endothelial injury", "Hypervolemia"], correct: "d", explanation: "Virchow's triad: hypercoagulability, stasis/turbulence, endothelial injury. Hypervolemia is not included." },
+  { id: 60, text: "A child with vomiting, Kussmaul breathing, dehydration, pH 7.0, PaCO2 23, HCO3 12. Assessment:", options: ["Respiratory acidosis uncompensated", "Respiratory acidosis partially compensated", "Mixed respiratory and metabolic acidosis", "Metabolic alkalosis uncompensated"], correct: "c", explanation: "pH 7.0 and low HCO3 indicate metabolic acidosis; low PaCO2 is compensatory hyperventilation." },
+  { id: 61, text: "According to Berlin definition of ARDS, which statement is FALSE?", options: ["PaO2/FiO2 <300 with PEEP <5 cmH2O", "Must be fully explained by cardiac failure", "Bilateral opacities on imaging", "Acute onset within 1 week"], correct: "a", explanation: "Berlin definition requires PEEP ≥5 cmH2O to classify ARDS severity." },
+  { id: 62, text: "Interpret ABG: pH 7.29, PaCO2 29, HCO3 14, BE -10", options: ["Metabolic acidosis", "Respiratory acidosis", "Respiratory and metabolic alkalosis", "Respiratory alkalosis", "Metabolic alkalosis"], correct: "a", explanation: "Low pH (acidemia), low HCO3, and low PaCO2 (compensation) indicate primary metabolic acidosis." },
+  { id: 63, text: "Energy value of 1 gram of fat is:", options: ["9.3 kcal", "4.1 kcal", "11.2 kcal", "7.0 kcal"], correct: "a", explanation: "Fat oxidation yields ~9.3 kcal/g (rounded to 9 kcal/g physiologically)." },
+  { id: 64, text: "The specific antidote for dabigatran overdose is:", options: ["Idarucizumab (Praxbind)", "Vitamin K", "Protamine", "Andexanet alpha"], correct: "a", explanation: "Idarucizumab is a monoclonal antibody fragment that neutralizes dabigatran." },
+  { id: 65, text: "Route of adrenaline during CPR if IV access is difficult:", options: ["Subcutaneously", "Intraosseous", "Intratracheal", "Intramuscularly"], correct: "b", explanation: "Intraosseous access provides rapid, reliable drug delivery equivalent to IV during CPR." },
+  { id: 66, text: "Massive fluid infusion in healthy adult male can cause hemorrhage due to:", options: ["Increased tPA", "Dilutional thrombocytopenia", "Vitamin K deficiency", "Decreased fibrinogen"], correct: "d", explanation: "Massive crystalloid infusion dilutes clotting factors; fibrinogen often reaches critically low levels first." },
+  { id: 67, text: "The fatal dose of methanol is:", options: ["0.5-0.7 ml/kg", "4-6 ml/kg", "0.1-0.5 ml/kg", "1-2 ml/kg"], correct: "d", explanation: "Methanol fatal dose is approximately 1-2 mL/kg, leading to severe metabolic acidosis and organ failure." },
+  { id: 68, text: "Which drug before glucose in hypoglycemia with alcohol abuse to prevent Wernicke encephalopathy?", options: ["Vitamin B6", "Calcium chloride", "Vitamin B1 (Thiamine)", "Vitamin B12"], correct: "c", explanation: "Thiamine must be given first to prevent acute Wernicke encephalopathy precipitated by glucose." },
+  { id: 69, text: "Normal PaCO2 in a healthy person is:", options: ["35-45 mmHg", ">60 mmHg", "25-30 mmHg", "45-60 mmHg"], correct: "a", explanation: "Normal arterial PCO2 is tightly regulated between 35-45 mmHg." },
+  { id: 70, text: "Risk factors of pulmonary artery embolism are:", options: ["Bed rest", "Obesity", "Taking antacids", "Oncological diseases", "Female gender"], correct: "c", explanation: "Antacids have no prothrombotic effect and are not associated with PE risk." },
+  { id: 71, text: "Typical cause of metabolic acidosis with increased anion gap:", options: ["Distal RTA", "Diabetic ketoacidosis", "Long-term acetazolamide", "Pancreatic fistula"], correct: "b", explanation: "DKA produces ketone bodies (unmeasured anions), increasing the anion gap." },
+  { id: 72, text: "Regarding Ropivacaine which statement is correct:", options: ["Less cardiotoxicity than bupivacaine", "More lipophilic than bupivacaine", "Does not cross placenta", "Metabolized extensively in kidneys"], correct: "a", explanation: "Ropivacaine is a single S-enantiomer with significantly less cardiotoxicity than racemic bupivacaine." },
+  { id: 73, text: "Too-rapid correction of hyponatremia can cause:", options: ["Subarachnoid hemorrhage", "Pontine myelinolysis", "Cerebral edema", "Adrenal hemorrhage"], correct: "b", explanation: "Rapid correction of chronic hyponatremia causes osmotic demyelination, most commonly in the pons." },
+  { id: 74, text: "Regarding cardiogenic pulmonary edema all are true EXCEPT:", options: ["Associated with right ventricle failure", "Low protein transudate in alveoli", "Fluid intake should be restricted", "Associated with left ventricle failure"], correct: "a", explanation: "Cardiogenic pulmonary edema is caused by left ventricular failure, not right ventricular failure." },
+  { id: 75, text: "A 75-year-old with chest pain radiating to back, absent left radial pulse, BP 210/110. Most likely:", options: ["Acute PE", "AMI with embolization", "Dissecting aortic aneurysm", "Acute aortic valve rupture"], correct: "c", explanation: "Thoracic aortic dissection presents with tearing chest pain, hypertension, and asymmetric pulses." },
+  { id: 76, text: "What is incorrect regarding Consciousness?", options: ["Arousal = eye opening/sleep-wake cycle", "Consciousness = Arousal + Awareness", "GCS 13 = stupor", "Coma = no arousal, no awareness", "Vegetative state = arousal present, no awareness"], correct: "c", explanation: "GCS 13 indicates mild impairment; stupor corresponds to GCS ≤8." },
+  { id: 77, text: "Which is an inhalational anesthetic?", options: ["Midazolam", "Ketamine", "Sevoflurane", "Thiopentone", "Propofol"], correct: "c", explanation: "Sevoflurane is a volatile liquid administered via inhalation as a general anesthetic." },
+  { id: 78, text: "Which correctly defines oxygen delivery (DO2)?", options: ["DO2 = 1.36 x Hb x SaO2", "DO2 = CaO2 x CO", "DO2 = (MAP-RAP)/CO", "DO2 = (MAP-PCWP)/CO"], correct: "b", explanation: "Oxygen delivery = cardiac output × arterial oxygen content." },
+  { id: 79, text: "Which is NOT a direct oral anticoagulant (DOAC)?", options: ["Rivaroxaban", "Warfarin", "Dabigatran", "Apixaban"], correct: "b", explanation: "Warfarin is a vitamin K antagonist, not a direct factor Xa or thrombin inhibitor." },
+  { id: 80, text: "Following substances can cause liver injury, EXCEPT:", options: ["Amiodarone", "Paracetamol", "Aflatoxin", "Lithium"], correct: "d", explanation: "Lithium is associated with renal, thyroid, and neurological toxicity, not hepatotoxicity." },
+  { id: 81, text: "Following are states of acute altered consciousness EXCEPT:", options: ["Dementia", "Vegetative state", "Stupor", "Coma"], correct: "a", explanation: "Dementia is chronic progressive cognitive decline, not an acute alteration of consciousness." },
+  { id: 82, text: "Regarding sepsis which statement is correct?", options: ["Infection with signs of MI", "Infection not responding to antibiotics", "Infection with multi-organ failure", "SIRS with hypotension"], correct: "c", explanation: "Sepsis-3 defines sepsis as life-threatening organ dysfunction from a dysregulated host response to infection." },
+  { id: 83, text: "Most common side effect of NSAIDs is:", options: ["Cerebral edema", "Secretory diarrhea", "Liver failure", "Gastric ulcer"], correct: "d", explanation: "NSAIDs inhibit COX-1, reducing protective gastric prostaglandins, leading to mucosal injury and ulcers." },
+  { id: 84, text: "The following substances can cause kidney injury, EXCEPT:", options: ["Lithium", "NSAIDs", "IV contrast", "Paracetamol"], correct: "d", explanation: "Paracetamol primarily causes hepatotoxicity, not direct kidney injury at therapeutic doses." },
+  { id: 85, text: "Emergency treatment of intracranial hypertension with brain herniation, EXCEPT:", options: ["Prednisolone", "Mannitol", "Carbonic anhydrase inhibitor", "Hypertonic saline"], correct: "a", explanation: "Steroids act too slowly for acute herniation; mannitol and hypertonic saline are first-line." },
+  { id: 86, text: "All are causes of normal anion gap metabolic acidosis EXCEPT:", options: ["Diarrhea", "Distal RTA", "Aspirin overdose", "Paracetamol poisoning"], correct: "c", explanation: "Aspirin overdose causes high anion gap metabolic acidosis due to salicylate and lactic acid." },
+  { id: 87, text: "With regard to sepsis which statement is true?", options: ["qSOFA used in ICU", "Change in SOFA score ≥2", "SIRS used as screening", "Systemic vascular resistance increased"], correct: "b", explanation: "Sepsis-3 defines sepsis as acute increase in SOFA score ≥2 points due to infection." },
+  { id: 88, text: "All are adrenaline effects on the heart EXCEPT:", options: ["Increases contractility", "Increases heart rate", "Decreases myocardial irritability", "Increases oxygen demand"], correct: "c", explanation: "Adrenaline increases myocardial excitability and irritability (proarrhythmic), not decreases." },
+  { id: 89, text: "Adverse effects of morphine EXCEPT:", options: ["Euphoria", "Constipation", "Nausea/vomiting", "Respiratory depression", "Sedation"], correct: "a", explanation: "Euphoria is a pharmacological effect, not classified as an adverse effect." },
+  { id: 90, text: "Metabolic acidosis is usually accompanied by:", options: ["Increased serum potassium", "Decreased serum sodium", "Decreased serum bicarbonate", "Decreased serum potassium"], correct: "a", explanation: "In metabolic acidosis, H+ shifts into cells, causing K+ to shift out, raising serum potassium." },
+  { id: 91, text: "Which is the antidote for cyanide poisoning?", options: ["Isopropylene", "N-acetylcysteine", "Amyl nitrite", "Methylene blue"], correct: "c", explanation: "Amyl nitrite oxidizes hemoglobin to methemoglobin, which scavenges cyanide ions." },
+  { id: 92, text: "Which lab test immediately in ED for decreased consciousness?", options: ["Serum lactate", "Blood glucose", "Liver function", "Complete blood count"], correct: "b", explanation: "Hypoglycemia is a rapidly reversible cause; point-of-care glucose is the first test." },
+  { id: 93, text: "Regarding cardiogenic pulmonary edema true EXCEPT:", options: ["Low-protein transudate accumulation", "Associated with left ventricle failure", "Protein-rich exudate accumulation", "Fluid infusion should be limited"], correct: "c", explanation: "Cardiogenic edema produces transudate (low protein), not exudate (inflammatory)." },
+  { id: 94, text: "Which scale is used to check level of consciousness?", options: ["SOFA", "FOUR scale", "VAS", "NIHSS"], correct: "b", explanation: "FOUR (Full Outline of UnResponsiveness) scale assesses eye response, motor, brainstem, and respiration." },
+  { id: 95, text: "Which belongs to benzodiazepines?", options: ["Dexmedetomidine", "Methohexital", "Propofol", "Midazolam"], correct: "d", explanation: "Midazolam is a short-acting benzodiazepine that enhances GABA-A receptor activity." },
+  { id: 96, text: "All are causes of increased anion gap metabolic acidosis EXCEPT:", options: ["Methanol poisoning", "Renal failure", "Aspirin overdose", "Addison disease"], correct: "d", explanation: "Addison disease causes normal anion gap (hyperchloremic) metabolic acidosis due to hypoaldosteronism." },
+  { id: 97, text: "Cause of metabolic alkalosis:", options: ["Acute renal failure", "Anorexia and fasting", "Long term vomiting", "Long term diarrhea"], correct: "c", explanation: "Vomiting causes loss of gastric HCl, reducing H+ load and raising plasma bicarbonate." },
+  { id: 98, text: "In carbon monoxide poisoning the following can be seen EXCEPT:", options: ["Low SpO2", "Altered mental status", "Seizures", "Tachycardia", "Hyperventilation"], correct: "a", explanation: "Pulse oximetry cannot distinguish carboxyhemoglobin from oxyhemoglobin, so SpO2 remains falsely normal." },
+  { id: 99, text: "All are true regarding methods to decrease ICP EXCEPT:", options: ["Head elevation", "Elevating legs", "Mannitol infusion", "Hyperventilation"], correct: "b", explanation: "Elevating legs increases venous return and may raise ICP, not lower it." },
+  { id: 100, text: "Causes of right ventricle (RV) failure include:", options: ["Obstructive sleep apnoea", "Extensive lung resection", "ARDS", "All are correct", "Acute pulmonary embolus"], correct: "d", explanation: "All listed conditions increase RV afterload and can precipitate RV failure." },
+  { id: 101, text: "Which level of carboxyhemoglobin (HbCO) corresponds to comatose stage of CO poisoning?", options: ["More than 80%", "60-80%", "More than 25%", "30-60%"], correct: "b", explanation: "Coma typically manifests when HbCO reaches 60-80%, reflecting profound tissue hypoxia." },
+  { id: 102, text: "Absolute contraindications to spinal anesthesia are, EXCEPT:", options: ["Infection at puncture site", "Patient's refusal", "Pregnancy", "Severe hypovolemia"], correct: "c", explanation: "Pregnancy is not a contraindication; spinal anesthesia is frequently used for C-sections." },
+  { id: 103, text: "Which is the triad of complications of massive blood transfusion?", options: ["Alkalosis, hypothermia, coagulopathy", "Alkalosis, hyperthermia, coagulopathy", "Acidosis, hyperthermia, liver failure", "Acidosis, hyperthermia, coagulopathy"], correct: "a", explanation: "Massive transfusion causes citrate-induced alkalosis, hypothermia from cold blood, and dilutional coagulopathy." },
+  { id: 104, text: "Which should be avoided initially in hemorrhagic shock?", options: ["Ringer lactate", "Dextrose 5%", "Normal saline", "None of the above"], correct: "b", explanation: "D5W is hypotonic and rapidly leaves the intravascular space, failing to restore volume." },
+  { id: 105, text: "Pain signals travel from periphery to spinal cord by:", options: ["A alpha, C fibers", "B nerve fibers", "A delta fibers only", "A delta, C fibers", "C fibers only"], correct: "d", explanation: "Aδ fibers transmit fast, sharp pain; C fibers transmit slow, dull, diffuse pain." },
+  { id: 106, text: "Important points of successful CPR during pulseless VT are EXCEPT:", options: ["Early defibrillation", "Early chest compressions", "Amiodarone for refractory VT", "Early cardiac pacing"], correct: "d", explanation: "Pacing is ineffective and not recommended for pulseless VT; defibrillation is key." },
+  { id: 107, text: "Relative contraindications of NSAIDs include the following EXCEPT:", options: ["Peptic ulcer", "Congestive heart failure", "Nephropathy", "Osteoarthritis"], correct: "d", explanation: "Osteoarthritis is a primary indication for NSAIDs, not a contraindication." },
+  { id: 108, text: "Which group is used in premedication before surgery?", options: ["Benzodiazepines", "Opioids", "Antidepressants", "Muscle relaxants"], correct: "a", explanation: "Benzodiazepines provide anxiolysis, sedation, and amnesia for premedication." },
+  { id: 109, text: "The following drug is used to treat methemoglobinemia:", options: ["Ascorbic acid", "Methylene blue", "N-acetylcysteine", "Indocyanine green"], correct: "b", explanation: "Methylene blue acts as a cofactor for NADPH-dependent methemoglobin reductase, reducing Fe3+ to Fe2+." },
+  { id: 110, text: "The following are true about aliphatic hydrocarbon poisoning EXCEPT:", options: ["Can cause severe lung injury", "Endotracheal intubation if unconscious", "Systemic toxicity usually not high", "Urgent gastric lavage if aspiration occurred"], correct: "d", explanation: "Gastric lavage is contraindicated due to high aspiration risk; it does not remove hydrocarbon from lungs." },
+  { id: 111, text: "Acronym of ICU principles FAST HUG includes:", options: ["Feeding, Analgesia, Sedation, Thromboembolism, Head elevation, Urine analysis, Glucose", "Feeding, Analgesia, Sedation, Thromboembolism, Head elevation, Ulcer prophylaxis, Glucose", "Feeding, Anesthesia, Sedation, Thromboembolism, Hyperthermia, Ulcer, Glucose", "Feeding, Anesthesia, Sedation, Thromboembolism, Head elevation, Ulcer, Glucose"], correct: "b", explanation: "FAST HUG: Feeding, Analgesia, Sedation, Thromboembolism prevention, Head elevation, Ulcer prophylaxis, Glucose control." },
+  { id: 112, text: "Glasgow Coma Scale (GCS) of 6 corresponds to:", options: ["Fully conscious", "Somnolence", "Stupor", "Coma"], correct: "d", explanation: "GCS ≤8 traditionally defines coma; a score of 6 indicates severe impairment." },
+  { id: 113, text: "Normal concentration of protein in CSF:", options: ["2-4 g/L", "0.01-0.04 g/L", "40-60 g/L", "0.2-0.4 g/L"], correct: "d", explanation: "Normal CSF protein is 0.15-0.45 g/L, about 200-fold lower than plasma." },
+  { id: 114, text: "Which is an anticoagulant drug?", options: ["Alteplase", "Aspirin", "Metoprolol", "Paracetamol", "Nadroparin"], correct: "e", explanation: "Nadroparin is a low molecular weight heparin that inhibits factor Xa via antithrombin III." },
+  { id: 115, text: "The antidote of opioids is:", options: ["Codeine", "Naloxone", "Glucagon", "Flumazenil"], correct: "b", explanation: "Naloxone is a competitive antagonist at mu-opioid receptors, reversing respiratory depression." },
+  { id: 116, text: "Common causes of indirect ARDS are, EXCEPT:", options: ["Sepsis", "Aspiration pneumonia", "Transfusion", "Pancreatitis"], correct: "b", explanation: "Aspiration pneumonia directly injures alveolar epithelium (direct ARDS), not indirect." },
+  { id: 117, text: "Which type of arrhythmia is that? (Twisting QRS complexes)", options: ["Torsades de pointes", "Ventricular fibrillation", "Complete AV block", "Atrial flutter", "Ventricular tachycardia"], correct: "a", explanation: "Torsades de pointes is polymorphic VT with QRS complexes twisting around the isoelectric line." },
+  { id: 118, text: "A 67-year-old with alcohol excess, seizure, arousable, glucose 3.5 mmol/L. First intervention:", options: ["Lorazepam 4mg IV", "Phenytoin IM", "Urgent CT brain", "IV Vitamin K", "IV NaCl 50% - 50ml"], correct: "e", explanation: "Hypoglycemic seizure requires immediate glucose correction. (Note: dextrose intended, typo in option)" },
+  { id: 119, text: "Duration of catabolic phase of postoperative period is:", options: ["3-5 days", "7-8 days", "1-2 days", "Less than a day"], correct: "a", explanation: "The catabolic phase, driven by stress hormones, typically lasts 3-5 days after major surgery." },
+  { id: 120, text: "Effects of prone position in ARDS, EXCEPT:", options: ["Reduced compliance", "Improved V/Q ratio", "Improved bronchial drainage", "Improves oxygenation"], correct: "a", explanation: "Prone positioning typically maintains or improves compliance, not reduces it." },
+  { id: 121, text: "Calculate CPP: MAP 65, ICP 15, CVP 12", options: ["78", "50", "60", "105", "52"], correct: "b", explanation: "CPP = MAP - ICP (when ICP > CVP) = 65 - 15 = 50 mmHg." },
+  { id: 122, text: "Management of drowning patients include all EXCEPT:", options: ["C-spine immobilization", "Cold saline infusion for cold water immersion", "Early intubation with PEEP", "Antibiotic prophylaxis"], correct: "d", explanation: "Routine antibiotic prophylaxis is not recommended; antibiotics only if infection develops." },
+  { id: 123, text: "Which does NOT cause metabolic alkalosis?", options: ["Vomiting", "Diarrhea", "Thiazide diuretics", "Loop diuretics", "Corticosteroids"], correct: "b", explanation: "Diarrhea causes loss of bicarbonate-rich fluid, leading to metabolic acidosis." },
+  { id: 124, text: "Which blood type can be given to a patient who is blood group O?", options: ["AB", "B", "All of the above", "O", "A"], correct: "d", explanation: "Group O individuals have anti-A and anti-B antibodies; only O blood is compatible." },
+  { id: 125, text: "Normal arterial blood oxygen saturation (SaO2) is:", options: ["Less than 50%", "97%-100%", "88%-90%", "62%"], correct: "b", explanation: "Normal SaO2 is 95-100%; 97-100% falls within this range." },
+  { id: 126, text: "Diabetic and cirrhotic patient suddenly unconscious with seizure. Most likely cause:", options: ["DKA", "Hypoglycemia", "Esophageal varices bleeding", "Methemoglobinemia"], correct: "b", explanation: "Both diabetes treatment and cirrhosis impair glucose homeostasis, causing severe hypoglycemia." },
+  { id: 127, text: "All are seen in emphysema except:", options: ["Decreased vital capacity", "Hypotension", "Exertional dyspnea", "Alveolar damage", "Hyperinflation"], correct: "b", explanation: "Hypotension is not a characteristic feature of emphysema." },
+  { id: 128, text: "Right hemispheric stroke: no eye opening, grunting, picks at bed linen. GCS score:", options: ["9", "7", "8", "15", "5"], correct: "c", explanation: "E1 + V2 + M5 = 8. (Localizing movement = 5)" },
+  { id: 129, text: "Which patient is in septic shock?", options: ["Post-op BP 95/53, lactate 2", "Pneumonia BP 95/53 on adrenaline, lactate 1.2", "MI BP 95/53 on adrenaline, lactate 3", "Pneumonia BP 90/53 on noradrenaline, lactate 3"], correct: "d", explanation: "Septic shock: infection + vasopressor requirement + lactate >2 mmol/L." },
+  { id: 130, text: "Regarding hypovolaemia which is correct?", options: ["Cardiac output decreases", "Cardiac index increases with SVR increase", "Normal MAP = 40-60 mmHg", "CVP measures MAP", "Vasoconstriction causes relative hypovolaemia"], correct: "a", explanation: "Hypovolemia reduces venous return and preload, decreasing stroke volume and cardiac output." },
+  { id: 131, text: "Which identifies components of oxygen content?", options: ["Hb, Lactate, SaO2", "Hb, PaO2, SaO2", "Hb, PaO2, SaO2, CO", "CO, SaO2, Hb", "Hb, SaO2, SvO2"], correct: "b", explanation: "CaO2 = (Hb × 1.34 × SaO2) + (PaO2 × 0.003). Components: Hb, SaO2, PaO2." },
+  { id: 132, text: "Base Excess (BE) is:", options: ["BE -5 with PCO2 <30 = respiratory acidosis", "Normal ±2 mmol/L, increases in metabolic alkalosis", "Measured by pulse oximetry", "Normal = 23 mmol/L", "Normal ±2, increases in metabolic acidosis"], correct: "b", explanation: "Normal BE is -2 to +2 mmol/L; positive in metabolic alkalosis, negative in metabolic acidosis." },
+  { id: 133, text: "Which statement is incorrect regarding qSOFA to diagnose sepsis?", options: ["Used outside ICU", "Heart rate >90 bpm", "SBP ≤100 mmHg", "RR ≥22/min", "GCS <15"], correct: "b", explanation: "Heart rate is not a qSOFA criterion. qSOFA includes RR, SBP, and mental status." },
+  { id: 134, text: "Which is FALSE about ketamine effects?", options: ["Increases ICP", "Can be given orally", "Depresses cardiovascular system", "Bronchodilation"], correct: "c", explanation: "Ketamine is a sympathomimetic; it increases heart rate, BP, and cardiac output." },
+  { id: 135, text: "The 'ESKAPE pathogens' include EXCEPT:", options: ["Staphylococcus aureus", "Ehrlichia chaffeensis", "Pseudomonas aeruginosa", "Acinetobacter baumannii", "Klebsiella pneumoniae", "Enterococcus faecium"], correct: "b", explanation: "ESKAPE: E. faecium, S. aureus, K. pneumoniae, A. baumannii, P. aeruginosa, Enterobacter spp." },
+  { id: 136, text: "Reversible causes of cardiac arrest:", options: ["All of above", "Acidosis", "Tension pneumothorax", "Cardiac tamponade", "Hypothermia"], correct: "a", explanation: "All listed are reversible causes (4 Hs and 4 Ts)." },
+  { id: 137, text: "The 'one-hour bundle' in sepsis emphasizes antibiotics within:", options: ["3 hours", "6 hours", "24 hours", "1 hour of sepsis recognition", "After culture results"], correct: "d", explanation: "SSC Hour-1 Bundle: all elements initiated within 1 hour of sepsis recognition." },
+  { id: 138, text: "Which is NOT one of the H's and T's of cardiac arrest?", options: ["Hypovolemia", "Tamponade", "Tension pneumothorax", "Toxins", "Hypoglycemia"], correct: "e", explanation: "Hypoglycemia is not in the standard H's and T's mnemonic for cardiac arrest." },
+  { id: 139, text: "A 60-year-old non-diabetic with glucose 35 mg/dL, elevated insulin and C-peptide. Most likely:", options: ["Adrenal insufficiency", "Exogenous insulin", "Insulinoma", "Factitious sulfonylurea", "Type 1 diabetes"], correct: "c", explanation: "Endogenous hyperinsulinemia with hypoglycemia in a non-diabetic suggests insulinoma." },
+  { id: 140, text: "Which is NOT an Apfel risk factor for PONV?", options: ["Female sex", "Postoperative opioids", "History of PONV", "Male sex", "Non-smoking"], correct: "d", explanation: "Apfel risk factors: female sex, non-smoking, PONV history, postoperative opioids." },
+  { id: 141, text: "A 65-year-old 5 days post-hip replacement with sudden dyspnea, pleuritic chest pain, hemoptysis, S1Q3T3. Most likely:", options: ["Aortic dissection", "Pericarditis", "AMI", "Pulmonary embolism", "Spontaneous pneumothorax"], correct: "d", explanation: "Post-op immobilization + classic symptoms + S1Q3T3 pattern suggests PE." },
+  { id: 142, text: "Septic shock: CI 4.5, SVR 600, ScvO2 55% despite fluids. Next intervention:", options: ["More fluids", "Transfuse to Hb>10", "Hydrocortisone", "Dobutamine", "Norepinephrine"], correct: "d", explanation: "Low ScvO2 despite high CI suggests oxygen extraction deficit; dobutamine improves delivery." },
+  { id: 143, text: "Urosepsis, penicillin anaphylaxis, ESBL E. coli. Most appropriate antibiotic:", options: ["Ciprofloxacin", "Piperacillin-tazobactam", "Ceftriaxone", "Amoxicillin-clavulanate", "Meropenem"], correct: "e", explanation: "Carbapenems (meropenem) are treatment of choice for ESBL; cross-reactivity with penicillins is <1%." },
+  { id: 144, text: "Succinylcholine side effects include all EXCEPT:", options: ["Fasciculations", "Malignant hyperthermia", "Bradycardia (repeated doses)", "Prolonged block in all patients", "Hyperkalemia in burns"], correct: "d", explanation: "Prolonged block occurs only in patients with atypical pseudocholinesterase, not all patients." },
+  { id: 145, text: "Lithium level 4.5 mEq/L with tremor, ataxia, seizures, renal impairment. Definitive treatment:", options: ["Forced saline diuresis", "N-acetylcysteine", "Hemodialysis", "Activated charcoal", "Whole bowel irrigation"], correct: "c", explanation: "Hemodialysis is indicated for severe lithium toxicity (level >4, neurotoxicity, renal failure)." },
+  { id: 146, text: "D-dimer testing for PE is most useful in:", options: ["High clinical probability", "Third trimester pregnancy", "Low clinical probability to rule out PE", "Postoperative day 1", "Known malignancy"], correct: "c", explanation: "A negative D-dimer in low pre-test probability effectively rules out PE (high NPV)." },
+  { id: 147, text: "Dead space ventilation is increased in all EXCEPT:", options: ["Hemorrhagic shock with low CO", "Rapid shallow breathing", "Excessive PEEP", "Atelectasis with shunt", "Pulmonary embolism"], correct: "d", explanation: "Atelectasis creates intrapulmonary shunt (perfusion without ventilation), not dead space." },
+  { id: 148, text: "Activated charcoal is contraindicated in ingestion of:", options: ["Acetaminophen within 1 hour", "Caustic alkali or acid", "Salicylate", "Tricyclic antidepressant", "Benzodiazepine"], correct: "b", explanation: "Activated charcoal is contraindicated in caustic ingestions as it obscures endoscopy and doesn't adsorb well." },
+  { id: 149, text: "Which muscle relaxant is preferred for RSI when succinylcholine is contraindicated?", options: ["Pancuronium", "Rocuronium (1.0-1.2 mg/kg)", "Atracurium", "Vecuronium standard dose", "Cisatracurium"], correct: "b", explanation: "High-dose rocuronium provides intubating conditions in 60 seconds and is reversible with sugammadex." },
+  { id: 150, text: "The Frank-Starling mechanism describes the relationship between:", options: ["EDV and stroke volume", "Heart rate and BP", "Atrial pressure and compliance", "Coronary flow and O2 consumption", "SVR and CO"], correct: "a", explanation: "Frank-Starling: increased end-diastolic volume (preload) increases stroke volume." },
+  { id: 151, text: "A 70-year-old post-surgery with respiratory distress: pH 7.33, PaCO2 48, PaO2 58 on room air, HCO3 25, A-a gradient 42. Mechanism of hypoxemia:", options: ["Diffusion impairment", "Left-to-right shunt", "Decreased FiO2", "V/Q mismatch", "Hypoventilation alone"], correct: "d", explanation: "Elevated A-a gradient indicates V/Q mismatch beyond simple hypoventilation." },
+  { id: 152, text: "A 45-year-old with vision blurring, central scotomata, severe metabolic acidosis (pH 7.0, anion gap 35, osmolar gap 25). Most likely poison:", options: ["Acetone", "Isopropyl alcohol", "Ethylene glycol", "Ethanol", "Methanol"], correct: "e", explanation: "Methanol poisoning causes visual disturbances and high anion gap metabolic acidosis with osmolar gap." },
+  { id: 153, text: "The most common cause of non-traumatic coma in the ED is:", options: ["CNS infection", "Drug overdose/poisoning", "Stroke", "Metabolic encephalopathy", "Epilepsy"], correct: "b", explanation: "Drug overdose and poisoning account for 30-40% of non-traumatic coma presentations." },
+  { id: 154, text: "Severe ARDS on FiO2 1.0, PEEP 18, PaO2/FiO2 70. Which rescue therapy has mortality benefit?", options: ["Surfactant", "HFOV", "Prone positioning ≥16 hours/day", "Inhaled nitric oxide", "ECCO2 removal"], correct: "c", explanation: "PROSEVA trial showed mortality benefit with prone positioning ≥16 hours/day in severe ARDS." },
+  { id: 155, text: "Hyperalgesia is defined as:", options: ["Increased pain response to normally painful stimulus", "Complete anesthesia", "Pain from non-painful stimulus", "Absence of pain", "Decreased sensitivity"], correct: "a", explanation: "Hyperalgesia = increased pain response to a stimulus that normally causes pain." },
+  { id: 156, text: "Unconscious, glucose 22 mg/dL. After D50W, glucose 145, patient awakens. One hour later, obtunded again with glucose 30. Most consistent with:", options: ["Alcohol-induced hypoglycemia", "Insulin diabetes missed meal", "Sulfonylurea overdose", "Addisonian crisis", "Reactive hypoglycemia"], correct: "c", explanation: "Recurrent hypoglycemia after glucose is characteristic of long-acting sulfonylurea overdose." },
+  { id: 157, text: "In paraquat poisoning, which intervention worsens outcome?", options: ["Activated charcoal", "Monitor renal/hepatic function", "Supplemental oxygen (high FiO2)", "Immunosuppression", "Cyclophosphamide"], correct: "c", explanation: "Oxygen worsens paraquat toxicity by providing substrate for ROS generation, accelerating pulmonary fibrosis." },
+  { id: 158, text: "Epinephrine in cardiac arrest is given at a dose of:", options: ["10mg every 10 min", "5mg once", "0.01mg every 3-5 min", "0.1mg every 3-5 min", "1mg every 3-5 min"], correct: "e", explanation: "Standard adult cardiac arrest dose: epinephrine 1mg IV/IO every 3-5 minutes." },
+  { id: 159, text: "TCA overdose: wide QRS (160 ms), terminal R wave in aVR >3 mm. Most predictive of seizures/arrhythmias:", options: ["First-degree AV block", "ST elevation in lead II", "Shortened QT", "T wave inversions V1-V3", "QRS duration >100 ms"], correct: "e", explanation: "QRS >100 ms predicts seizures; QRS >160 ms predicts ventricular arrhythmias in TCA toxicity." },
+  { id: 160, text: "Obstructive shock can be caused by all EXCEPT:", options: ["Hemorrhagic blood loss", "Tension pneumothorax", "Cardiac tamponade", "Massive PE", "Severe aortic stenosis"], correct: "a", explanation: "Hemorrhagic blood loss causes hypovolemic shock, not obstructive shock." },
+  { id: 161, text: "The Visual Analog Scale (VAS) for pain typically ranges from:", options: ["0 to 10 (or 0-100 mm)", "1 to 20", "None, Mild, Moderate, Severe", "A to F", "0 to 5"], correct: "a", explanation: "VAS is a continuous 100-mm line from 0 (no pain) to 100 (worst pain)." },
+  { id: 162, text: "ICU patient on propofol 6 mg/kg/hr for 5 days develops metabolic acidosis, elevated CK, triglyceridemia. Most likely:", options: ["DKA", "Sepsis", "Propofol infusion syndrome (PRIS)", "Renal tubular acidosis", "Thiamine deficiency"], correct: "c", explanation: "PRIS: prolonged high-dose propofol causing metabolic acidosis, rhabdomyolysis, hypertriglyceridemia." },
+  { id: 163, text: "The lethal triad in trauma refers to:", options: ["Brain, spinal, thoracic injury", "Hypovolemia, hypoxia, hyperkalemia", "Sepsis, DIC, multi-organ failure", "Hemorrhage, pneumothorax, tamponade", "Hypothermia, acidosis, coagulopathy"], correct: "e", explanation: "Lethal triad: hypothermia, acidosis, coagulopathy — each worsens the others." },
+  { id: 164, text: "Severe burns: Na 128, K 5.8, Cl 100. Most appropriate fluid for resuscitation:", options: ["0.45% NaCl", "Lactated Ringer's", "3% hypertonic saline", "D5W", "5% albumin in D5W"], correct: "b", explanation: "Lactated Ringer's is standard burn resuscitation fluid (Parkland formula)." },
+  { id: 165, text: "Endogenous opioid peptides include all EXCEPT:", options: ["Dynorphins", "β-endorphin", "Enkephalins", "Endomorphins", "Prostaglandin E2"], correct: "e", explanation: "PGE2 is an inflammatory mediator, not an endogenous opioid peptide." },
+  { id: 166, text: "Cardiogenic shock with Forrester class IV hemodynamics is:", options: ["Normal CI, normal PCWP", "High CI, low PCWP", "Low CI, high PCWP", "Normal CI, high PCWP", "Low CI, low PCWP"], correct: "c", explanation: "Forrester Class IV: low CI (<2.2) and high PCWP (>18) — cardiogenic shock with congestion and hypoperfusion." },
+  { id: 167, text: "Cerebral autoregulation maintains constant CBF across MAP range of:", options: ["100-250 mmHg", "50-150 mmHg", "30-60 mmHg", "60-80 mmHg", "80-200 mmHg"], correct: "b", explanation: "CBF is constant across MAP 50-150 mmHg through myogenic and metabolic mechanisms." },
+  { id: 168, text: "Post-cardiac arrest syndrome includes all EXCEPT:", options: ["Myocardial dysfunction", "Brain injury", "Persistent underlying pathology", "Systemic ischemia/reperfusion", "Irreversible brainstem death in all cases"], correct: "e", explanation: "Brainstem death does NOT occur in all cases; many have good neurologic recovery." },
+  { id: 169, text: "Wasp sting anaphylaxis: after IM epinephrine and IV fluids, symptoms recur 30 min later. Next step:", options: ["Repeat IM epinephrine", "High-dose corticosteroids only", "Oral antihistamines only", "Observation", "Stop epinephrine, start dopamine"], correct: "a", explanation: "Epinephrine can be repeated every 5-15 minutes for persistent or recurrent anaphylaxis." },
+  { id: 170, text: "Cerebral blood flow is most strongly regulated by changes in:", options: ["PaCO2", "PaO2", "Serum glucose", "Body temperature", "Systemic BP (within range)"], correct: "a", explanation: "PaCO2 is the most potent acute regulator of CBF: each mmHg change alters CBF by ~3%." },
+  { id: 171, text: "Postoperative oliguria (<0.5 mL/kg/hr) in first 6 hours is most commonly due to:", options: ["Rhabdomyolysis", "Contrast nephropathy", "ATN", "Post-renal obstruction", "Hypovolemia"], correct: "e", explanation: "Early postoperative oliguria is most commonly pre-renal from hypovolemia." },
+  { id: 172, text: "Severe dehydration: Na 158, osmolality 330. Most appropriate initial fluid:", options: ["0.9% normal saline", "3% hypertonic saline", "Lactated Ringer's", "D5W", "0.45% NaCl"], correct: "a", explanation: "Priority is volume resuscitation with isotonic crystalloid; correct free water deficit slowly after stabilization." },
+  { id: 173, text: "Most critical determinant of survival in VF cardiac arrest:", options: ["Time to defibrillation", "Advanced airway", "Vasopressin vs epinephrine", "CPR duration", "Amiodarone"], correct: "a", explanation: "Survival decreases 7-10% per minute without defibrillation." },
+  { id: 174, text: "Which burn depth appears white/leathery and is insensate?", options: ["Subdermal (fourth-degree)", "Superficial partial-thickness", "Deep partial-thickness", "Full-thickness (third-degree)", "Superficial (first-degree)"], correct: "d", explanation: "Full-thickness burns destroy epidermis and dermis, appear white/leathery, and are insensate." },
+  { id: 175, text: "In ARDS, the exudative phase is characterized by:", options: ["Collagen deposition", "Resolution", "Bronchiolitis obliterans", "Emphysematous destruction", "Diffuse alveolar damage with hyaline membranes"], correct: "e", explanation: "Exudative phase (days 1-7): diffuse alveolar damage, hyaline membranes, protein-rich edema." },
+  { id: 176, text: "Which oxygen device provides the most precise and constant FiO2?", options: ["Partial rebreather", "Non-rebreather", "Simple face mask", "Nasal cannula", "Venturi mask"], correct: "e", explanation: "Venturi mask delivers precise, fixed FiO2 (24-50%) regardless of respiratory pattern." },
+  { id: 177, text: "Comatose patient: pinpoint pupils, respiratory depression (RR 6), responds only to deep pain. Most likely:", options: ["Hypoglycemia", "Hepatic encephalopathy", "Opioid overdose", "Sympathomimetic toxicity", "Anticholinergic poisoning"], correct: "c", explanation: "Classic triad of opioid toxicity: pinpoint pupils, respiratory depression, decreased consciousness." },
+  { id: 178, text: "Daily maintenance potassium requirements for an adult are approximately:", options: ["200 mEq/day", "100 mEq/day", "10 mEq/day", "0 mEq/day", "20-40 mEq/day (0.5-1 mEq/kg/day)"], correct: "e", explanation: "Daily maintenance K+ is 0.5-1 mEq/kg/day (20-40 mEq/day for adults)." },
+  { id: 179, text: "Empiric antifungal should be considered in septic patients EXCEPT:", options: ["TPN", "Prolonged ICU stay with broad-spectrum antibiotics", "Immunosuppression", "Uncomplicated community-acquired UTI", "Recent abdominal surgery with leak"], correct: "d", explanation: "Uncomplicated community-acquired UTI is not a risk factor for invasive fungal infection." },
+  { id: 180, text: "Recommended chest compression rate for adult CPR is:", options: ["As fast as possible", "100-120 per minute", "80-100 per minute", "60-80 per minute", "120-140 per minute"], correct: "b", explanation: "Current guidelines recommend 100-120 compressions per minute for adults." },
+  { id: 181, text: "The compression-to-ventilation ratio for neonatal resuscitation is:", options: ["15:2", "30:2", "5:1", "10:2", "3:1"], correct: "e", explanation: "Neonatal resuscitation uses 3:1 ratio (90 compressions + 30 ventilations per minute)." },
+  { id: 182, text: "New fever on day 7 of ICU stay with central line, urinary catheter, mechanical ventilation. Most common source:", options: ["VAP", "CAUTI", "CLABSI", "C. diff colitis", "Surgical site infection"], correct: "a", explanation: "Ventilator-associated pneumonia is the most common nosocomial infection in ICU patients." },
+  { id: 183, text: "Laparoscopic surgery with CO2 insufflation develops sudden hypotension, tachycardia, ETCO2 drops to near zero. Most likely:", options: ["Anaphylaxis", "Malignant hyperthermia", "CO2 embolism", "Pneumothorax", "Bronchospasm"], correct: "c", explanation: "Sudden cardiovascular collapse with ETCO2 drop during laparoscopy is classic for CO2 embolism." },
+  { id: 184, text: "Nitrous oxide (N2O) is contraindicated in:", options: ["Pneumothorax, bowel obstruction, middle ear surgery", "Ambulatory surgery", "Labor analgesia", "Minor dental procedures", "Maintenance of anesthesia"], correct: "a", explanation: "N2O diffuses into air-filled spaces, expanding them — contraindicated in pneumothorax, bowel obstruction, etc." },
+  { id: 185, text: "Gastric lavage in acute poisoning is potentially beneficial if performed within:", options: ["4 hours", "2 hours", "30 minutes", "6 hours", "1 hour"], correct: "e", explanation: "Gastric lavage, when indicated, should be performed within 1 hour of ingestion." },
+  { id: 186, text: "Morphine produces analgesia primarily by binding to:", options: ["Sigma receptors", "Delta opioid receptors", "Mu opioid receptors", "NMDA receptors", "Kappa opioid receptors"], correct: "c", explanation: "Morphine is a mu (μ) opioid receptor agonist, producing analgesia, euphoria, and respiratory depression." },
+  { id: 187, text: "Patient on 100% FiO2 has PaO2 65 mmHg. PaO2/FiO2 ratio is 65. Berlin classification:", options: ["Mild ARDS", "Moderate ARDS", "Severe ARDS", "Acute lung injury", "Cardiogenic edema"], correct: "c", explanation: "PaO2/FiO2 ≤100 with PEEP ≥5 defines severe ARDS." },
+  { id: 188, text: "Which cranial nerve reflex is most useful in differentiating structural from metabolic causes of coma?", options: ["Pupillary light reflex (CN II, III)", "Gag reflex (CN IX, X)", "Vestibulo-ocular reflex", "Corneal reflex", "Jaw jerk reflex"], correct: "a", explanation: "Pupillary reflexes are resistant to metabolic insults but sensitive to structural lesions." },
+  { id: 189, text: "The most common electrolyte disturbance in hospitalized patients is:", options: ["Hypermagnesemia", "Hypocalcemia", "Hyperkalemia", "Hyperphosphatemia", "Hyponatremia"], correct: "e", explanation: "Hyponatremia affects up to 30% of inpatients, making it the most common electrolyte disorder." },
+  { id: 190, text: "The primary chemoreceptor stimulus for increasing ventilation in a healthy individual is:", options: ["Decreased pH via peripheral chemoreceptors", "Decreased PaO2 via central chemoreceptors", "Increased PaCO2 via central chemoreceptors", "Increased PaO2 via aortic bodies", "Decreased HCO3 in CSF"], correct: "c", explanation: "Central chemoreceptors in the medulla respond to PaCO2 (via CSF pH) as the primary driver of ventilation." },
+  { id: 191, text: "IV drug user with fever, new heart murmur, septic emboli to lungs, blood cultures grow MRSA. Antibiotic of choice:", options: ["Ceftriaxone", "Clindamycin", "Piperacillin-tazobactam", "Ciprofloxacin", "Vancomycin"], correct: "e", explanation: "MRSA endocarditis requires vancomycin (or daptomycin for left-sided if vancomycin-intolerant)." },
+  { id: 192, text: "DKA with serum sodium 125 mEq/L. Corrected sodium (glucose ~500) is approximately:", options: ["133-135 mEq/L", "125 mEq/L", "140 mEq/L", "150 mEq/L", "130 mEq/L"], correct: "a", explanation: "Corrected Na = measured Na + 1.6 × [(glucose - 100)/100] = 125 + 6.4 = 131.4 mEq/L." },
+  { id: 193, text: "Nociceptors are activated by all EXCEPT:", options: ["ATP from damaged cells", "Gentle touch and light pressure", "Thermal extremes", "Chemical mediators (bradykinin)", "Mechanical deformation"], correct: "b", explanation: "Nociceptors are high-threshold receptors; gentle touch activates low-threshold mechanoreceptors." },
+  { id: 194, text: "Massive PE with hemodynamic instability (SBP 70 mmHg). Most appropriate initial treatment:", options: ["IVC filter", "Unfractionated heparin alone", "Surgical embolectomy", "Systemic thrombolysis with alteplase", "LMWH"], correct: "d", explanation: "Massive PE with shock is an indication for systemic thrombolysis unless absolutely contraindicated." },
+  { id: 195, text: "The target rate of blood glucose reduction in DKA should not exceed:", options: ["100-150 mg/dL per hour", "50-75 mg/dL per hour", "20-30 mg/dL per hour", "Any rate", "200 mg/dL per hour"], correct: "b", explanation: "Glucose should decline at 50-75 mg/dL/hr; too-rapid correction risks cerebral edema." },
+  { id: 196, text: "The side effect of opioids most resistant to tolerance development is:", options: ["Nausea/vomiting", "Constipation", "Sedation", "Respiratory depression", "Euphoria"], correct: "b", explanation: "Opioid-induced constipation persists throughout therapy; patients do not develop tolerance to it." },
+  { id: 197, text: "Septic shock on norepinephrine 0.5 mcg/kg/min and vasopressin 0.03 U/min, MAP still 58 mmHg. Next step:", options: ["Increase vasopressin to 0.06", "Add epinephrine", "Stop vasopressin, double norepi", "Add phenylephrine", "Start IV hydrocortisone 200 mg/day"], correct: "e", explanation: "Vasopressor-refractory septic shock warrants stress-dose hydrocortisone to restore vascular responsiveness." },
+  { id: 198, text: "The mechanism of action of rivaroxaban and apixaban is:", options: ["Antithrombin III potentiation", "Vitamin K antagonism", "GPIIb/IIIa blockade", "Direct inhibition of Factor Xa", "Fibrinogen inhibition"], correct: "d", explanation: "Rivaroxaban and apixaban are direct Factor Xa inhibitors." },
+  { id: 199, text: "Suspected sepsis: RR 24, SBP 95 mmHg, altered mental status. qSOFA score is:", options: ["3", "Cannot calculate", "1", "0", "2"], correct: "a", explanation: "qSOFA: 1 point each for RR≥22, SBP≤100, altered mental status → total 3." },
+  { id: 200, text: "Which PEEP titration strategy in ARDS sets PEEP just above the lower inflection point on the PV curve?", options: ["ARDSNet FiO2/PEEP table", "Open lung approach", "Esophageal pressure-guided", "Best compliance PEEP", "Decremental PEEP trial"], correct: "b", explanation: "The open lung approach sets PEEP above the lower inflection point to keep alveoli open." },
+  { id: 201, text: "Mechanically ventilated status asthmaticus develops sudden hypotension, peak airway pressures 55 cmH2O, breath sounds absent on the right. Most likely:", options: ["Mucus plug", "Cardiac tamponade", "Right-sided tension pneumothorax", "Dynamic hyperinflation", "Right mainstem intubation"], correct: "c", explanation: "Sudden hypotension, elevated pressures, and unilateral absent breath sounds suggest tension pneumothorax." },
+  { id: 202, text: "A 55-year-old on furosemide presents with lethargy, muscle cramps, weakness. ECG: flattened T waves and U waves. Na 140, K 2.4, Cl 88, HCO3 34, pH 7.5. Acid-base disturbance:", options: ["Respiratory acidosis", "Respiratory alkalosis", "Metabolic alkalosis", "Metabolic acidosis", "Normal"], correct: "c", explanation: "Loop diuretics cause hypokalemic, hypochloremic metabolic alkalosis." },
+  { id: 203, text: "ARDS on Vt 6 mL/kg, PEEP 12, FiO2 0.8, plateau pressure 32, PaO2 55 mmHg. Next step per ARDSNet:", options: ["Add inhaled nitric oxide", "Initiate prone positioning", "Increase FiO2 to 1.0", "Increase PEEP to 16", "Increase Vt to 8 mL/kg"], correct: "b", explanation: "Prone positioning for ≥16 hours/day has mortality benefit in moderate-severe ARDS (PaO2/FiO2 <150)." },
+  { id: 204, text: "Chronic noncancer pain on long-term opioids: worsening pain despite increasing doses, pain spreading beyond original site, increased pain sensitivity. This suggests:", options: ["Opioid-induced hyperalgesia (OIH)", "Drug-seeking behavior", "Disease progression", "Nociceptive pain", "Normal tolerance"], correct: "a", explanation: "OIH is paradoxical pain worsening with opioid dose escalation, requiring dose reduction, not increase." },
+  { id: 205, text: "Most common initial rhythm in out-of-hospital cardiac arrest in adults is:", options: ["PEA", "Ventricular fibrillation", "Third-degree heart block", "Asystole", "VT with pulse"], correct: "b", explanation: "VF is the most common initial rhythm in witnessed out-of-hospital cardiac arrest (60-70%)." },
+  { id: 206, text: "During intubation of status asthmaticus, preferred induction agent due to bronchodilation:", options: ["Etomidate", "Thiopental", "Ketamine", "Midazolam", "Propofol"], correct: "c", explanation: "Ketamine causes bronchodilation via catecholamine release and direct smooth muscle relaxation." },
+  { id: 207, text: "Berlin definition of ARDS includes all EXCEPT:", options: ["PaO2/FiO2 <300 with PEEP <5 cmH2O", "Not fully explained by cardiac failure", "Bilateral opacities on imaging", "Acute onset within 1 week", "PaO2/FiO2 ≤300 with PEEP ≥5"], correct: "a", explanation: "Berlin definition requires PEEP ≥5 cmH2O to classify ARDS severity." },
+  { id: 208, text: "Free water deficit in hypernatremia is calculated by:", options: ["TBW × (1 - [Desired Na]/Current Na])", "([Current Na] - 140) × Body weight", "Urine output × 24", "Body weight × 0.6 × Current Na", "TBW × ([Current Na]/140 - 1)"], correct: "e", explanation: "Free water deficit = TBW × ([Current Na]/140 - 1). TBW = weight(kg) × 0.6 (male) or 0.5 (female)." },
+  { id: 209, text: "Atropine is NO LONGER routinely recommended in which cardiac arrest rhythm?", options: ["Asystole and PEA", "Bradycardia during neuraxial anesthesia", "Organophosphate poisoning", "Rapid atrial fibrillation", "Symptomatic bradycardia with pulse"], correct: "a", explanation: "Atropine was removed from ACLS algorithm for asystole and PEA due to lack of benefit." },
+  { id: 210, text: "Total intravenous anesthesia (TIVA) most commonly uses the combination of:", options: ["Midazolam and pancuronium", "Ketamine and halothane", "Etomidate and succinylcholine", "Propofol and remifentanil", "Thiopental and morphine"], correct: "d", explanation: "TIVA typically combines propofol (hypnotic) with remifentanil (ultra-short opioid) for rapid recovery." },
+  { id: 211, text: "Postoperative hypothermia (34.5°C) increases risk of all EXCEPT:", options: ["Surgical site infection", "Cardiac arrhythmias", "Faster recovery and earlier discharge", "Coagulopathy", "Shivering with increased O2 consumption"], correct: "c", explanation: "Hypothermia delays recovery, increases complications; active warming should maintain ≥36°C." },
+  { id: 212, text: "A 45-year-old with acute dyspnea and hypoxemia 72 hours after long bone fracture. Bilateral infiltrates, petechiae on conjunctivae and axillae. Most likely:", options: ["TRALI", "Cardiogenic edema", "PE from DVT", "Fat embolism syndrome", "Hospital-acquired pneumonia"], correct: "d", explanation: "Triad of respiratory distress, neurologic symptoms, and petechial rash 24-72 hours after fracture = fat embolism syndrome." },
+  { id: 213, text: "Amiodarone 300 mg IV is given during cardiac arrest for which rhythm?", options: ["Asystole", "Sinus bradycardia", "PEA", "Shock-refractory VF/pulseless VT (after 3rd shock)", "Atrial fibrillation with RVR"], correct: "d", explanation: "Amiodarone is given for VF/pVT that persists after the 3rd defibrillation attempt." },
+  { id: 214, text: "A 2-year-old swallows iron supplements. In first 6 hours: vomiting, bloody diarrhea, abdominal pain. This is which phase?", options: ["Phase 3: systemic toxicity", "Phase 5: late hepatic failure", "Phase 4: GI scarring", "Phase 2: latent recovery", "Phase 1: GI toxicity"], correct: "e", explanation: "Phase 1 (0-6 hours): direct GI mucosal corrosion causing vomiting, diarrhea, GI bleeding." },
+  { id: 215, text: "In burn resuscitation, most reliable endpoint for adequacy of fluid administration is:", options: ["Normalization of lactate within 2 hours", "Urine output 0.5-1.0 mL/kg/hr", "Heart rate <100 bpm", "CVP 12-15 cmH2O", "MAP >80 mmHg"], correct: "b", explanation: "Urine output (0.5-1.0 mL/kg/hr in adults) is the most practical and reliable endpoint." },
+  { id: 216, text: "Adding epinephrine to local anesthetic provides all benefits EXCEPT:", options: ["Vasoconstriction prolonging block", "Increasing maximum safe dose", "Intravascular injection marker (tachycardia)", "Increasing risk of LAST", "Reducing surgical bleeding"], correct: "d", explanation: "Epinephrine DECREASES risk of LAST by reducing systemic absorption." },
+  { id: 217, text: "Central venous pressure monitoring is most useful for assessing:", options: ["Left ventricular contractility", "Systemic vascular resistance", "Right ventricular preload", "Pulmonary vascular resistance", "Left atrial pressure"], correct: "c", explanation: "CVP reflects right atrial pressure, which approximates RV preload." },
+  { id: 218, text: "Ketorolac (parenteral NSAID) should generally be limited to maximum of how many days?", options: ["10 days", "5 days", "3 days", "14 days", "1 day"], correct: "b", explanation: "Ketorolac use should not exceed 5 days due to risk of GI bleeding, renal impairment, and platelet dysfunction." },
+  { id: 219, text: "The International Normalized Ratio (INR) is derived from which coagulation test?", options: ["Bleeding time", "Prothrombin time (PT)", "Thrombin time (TT)", "Fibrinogen level", "aPTT"], correct: "b", explanation: "INR standardizes PT across laboratories: INR = (Patient PT / Mean Normal PT)^ISI." },
+  { id: 220, text: "In biphasic anaphylaxis, the late-phase reaction typically occurs:", options: ["24-48 hours later", "1-8 hours after initial reaction", "Only if not treated with epinephrine", "Within 5 minutes", "1 week later"], correct: "b", explanation: "Biphasic anaphylaxis occurs in up to 20%, with late-phase reaction 1-8 hours after initial reaction." },
+  { id: 221, text: "Empiric antibiotics for HAP with MDR risk factors should cover:", options: ["Typical community pathogens only", "Fungi only", "MRSA and Pseudomonas aeruginosa", "Anaerobes only", "Mycobacterium tuberculosis"], correct: "c", explanation: "HAP with MDR risk factors requires empiric coverage for MRSA and Pseudomonas." },
+  { id: 222, text: "Epinephrine in anaphylaxis should NOT be administered by which route?", options: ["IV infusion (diluted)", "Endotracheal", "IM in the thigh", "Intraosseous", "Subcutaneous"], correct: "e", explanation: "Subcutaneous epinephrine is no longer recommended due to unreliable absorption, especially in hypotension." },
+  { id: 223, text: "Which inhalational agent has the lowest blood-gas partition coefficient and fastest onset/offset?", options: ["Nitrous oxide", "Desflurane", "Sevoflurane", "Isoflurane", "Halothane"], correct: "b", explanation: "Desflurane has lowest blood-gas partition coefficient (0.42), fastest onset/offset, but is pungent." },
+  { id: 224, text: "A 75-year-old with acute confusion and agitation on postoperative day 1 after hip replacement. Most likely:", options: ["Dementia", "Emergence delirium", "Malingering", "Postoperative delirium", "Psychiatric disorder"], correct: "d", explanation: "Postoperative delirium occurs in 15-53% of elderly surgical patients, typically on POD 1-3." },
+  { id: 225, text: "START triage: a patient not breathing and does not resume breathing after airway repositioning is classified as:", options: ["Yellow (delayed)", "White (dismissed)", "Black (expectant/deceased)", "Green (minor)", "Red (immediate)"], correct: "c", explanation: "START triage: no breathing after airway repositioning → BLACK (expectant/deceased)." },
+  { id: 226, text: "Neurogenic shock after cervical spinal cord injury presents with:", options: ["Hypertension, tachycardia, diaphoresis", "Hypotension, tachycardia, cold extremities", "Normotension, bradycardia, cold extremities", "Hypotension, bradycardia, warm extremities", "Hypotension, tachycardia, warm extremities"], correct: "d", explanation: "Neurogenic shock: loss of sympathetic tone → hypotension, bradycardia, warm extremities." },
+  { id: 227, text: "Prilocaine in excessive doses can cause:", options: ["Methemoglobinemia", "Renal tubular acidosis", "Aplastic anemia", "Hepatic necrosis", "Malignant hyperthermia"], correct: "a", explanation: "Prilocaine metabolite o-toluidine oxidizes hemoglobin to methemoglobin." },
+  { id: 228, text: "A 55-year-old unresponsive: opens eyes to pain, incomprehensible sounds, flexion withdrawal to pain. GCS score:", options: ["8", "5", "9", "11", "7"], correct: "a", explanation: "E2 + V2 + M4 = 8 (flexion withdrawal = 4). GCS ≤8 indicates severe impairment." },
+  { id: 229, text: "Circumferential full-thickness burns of both forearms. Hands become pale, pulseless, sensationless. Most urgent intervention:", options: ["Escharotomy", "Skin grafting", "IV fluid bolus", "Elevation of extremities", "Fasciotomy"], correct: "a", explanation: "Escharotomy releases constriction from rigid eschar, restoring perfusion; can be done at bedside." },
+  { id: 230, text: "The pneumonic 'DRSABCD' in emergency response stands for:", options: ["Diagnosis, Resuscitation, Surgery, Antibiotics, Bandaging, CT, Discharge", "Drug, Response, Shock, Airway, Breathing, Compression, Defibrillation", "Drugs, Rhythm, Stabilize, Assess, Blood, Culture, Drain", "Defibrillation, Resuscitation, Support, Assessment, Balance, Care, Diagnosis", "Danger, Response, Send for help, Airway, Breathing, CPR, Defibrillation"], correct: "e", explanation: "DRSABCD: Danger, Response, Send for help, Airway, Breathing, CPR, Defibrillation." },
+  { id: 231, text: "King's College Criteria for liver transplant in acetaminophen overdose include all EXCEPT:", options: ["Grade III-IV encephalopathy", "Arterial pH <7.30", "Serum albumin >4.0 g/dL", "Creatinine >3.4 mg/dL", "INR >6.5"], correct: "c", explanation: "Albumin >4.0 is normal/good and NOT part of King's College Criteria for poor prognosis." },
+  { id: 232, text: "Sugammadex reverses neuromuscular blockade caused by which class?", options: ["Aminosteroid agents (rocuronium, vecuronium)", "All neuromuscular blockers", "Benzodiazepines", "Depolarizing agents (succinylcholine)", "Benzylisoquinolinium agents"], correct: "a", explanation: "Sugammadex encapsulates aminosteroid NMBAs, reversing them at any depth of block." },
+  { id: 233, text: "The VAP prevention bundle includes all EXCEPT:", options: ["Routine prophylactic antibiotics for all ventilated patients", "Oral care with chlorhexidine", "DVT and ulcer prophylaxis", "Daily sedation vacation and readiness to extubate", "Head of bed elevation to 30-45°"], correct: "a", explanation: "Routine prophylactic antibiotics are NOT part of VAP bundle; they promote resistance." },
+  { id: 234, text: "A 70-year-old with heart failure: BP 85/60, HR 110, JVP 12 cm, bilateral crackles, cold extremities, CVP 18. Type of shock:", options: ["Distributive", "Obstructive", "Cardiogenic", "Neurogenic", "Hypovolemic"], correct: "c", explanation: "Elevated JVP/CVP with poor perfusion and pulmonary congestion = cardiogenic shock." },
+  { id: 235, text: "The Wells score for PE assigns the highest individual points (3 points) to which clinical feature?", options: ["PE is most likely diagnosis", "Previous DVT/PE", "Immobilization or surgery", "Clinical signs of DVT", "Heart rate >100 bpm"], correct: "a", explanation: "'PE is #1 diagnosis or equally likely' and 'clinical signs of DVT' each receive 3 points." },
+  { id: 236, text: "In post-resuscitation period, target blood glucose to optimize neurologic outcomes is:", options: ["No monitoring needed", "200-250 mg/dL", "140-180 mg/dL", "<80 mg/dL", "80-110 mg/dL (strict)"], correct: "c", explanation: "Post-arrest glucose target is 140-180 mg/dL; strict control increases hypoglycemia and mortality." },
+  { id: 237, text: "In management of DIC, the most important intervention is:", options: ["Heparin infusion in all cases", "Treatment of underlying cause", "FFP in all patients regardless of bleeding", "Antifibrinolytics in all cases", "Prophylactic platelets to keep >150,000"], correct: "b", explanation: "Treating the underlying cause (sepsis, trauma, obstetric cause) is the cornerstone of DIC management." },
+  { id: 238, text: "Cardiogenic shock from acute MI: BP 80/50, CI 1.8, PCWP 28, SVR 2200. Most appropriate initial vasopressor:", options: ["High-dose dopamine", "Epinephrine", "Norepinephrine", "Phenylephrine", "Vasopressin"], correct: "c", explanation: "Norepinephrine is first-line vasopressor in cardiogenic shock per current guidelines (SOAP II trial)." },
+  { id: 239, text: "During CPR on a hard surface, recommended chest compression depth for an adult is:", options: ["At least 5 cm but not more than 6 cm", "7-8 cm", "2-3 cm", "3-4 cm", "As deep as possible"], correct: "a", explanation: "Guidelines recommend depth of 5-6 cm (2-2.4 inches) for adults." },
+  { id: 240, text: "AED analyzes and indicates 'no shock advised.' Monitor shows flat line. Rescuer should:", options: ["Turn off AED and stop resuscitation", "Check leads and confirm asystole", "B and D simultaneously", "Resume high-quality CPR for 2 minutes", "Deliver a shock manually"], correct: "c", explanation: "Confirm asystole in multiple leads AND resume CPR immediately for 2 minutes." },
+  { id: 241, text: "Phenytoin is specifically contraindicated for seizure control in which poisoning?", options: ["Carbamazepine overdose", "Isoniazid overdose", "Lithium toxicity", "Theophylline toxicity", "Both B and C"], correct: "e", explanation: "Phenytoin is ineffective in theophylline seizures (worsens arrhythmias) and INH seizures (needs pyridoxine)." },
+  { id: 242, text: "Bronchospasm during induction. Inhalation agent with best bronchodilatory properties:", options: ["Sevoflurane", "Halothane", "Nitrous oxide", "Isoflurane", "Desflurane"], correct: "a", explanation: "Sevoflurane has best bronchodilatory properties and is non-irritant to airways." },
+  { id: 243, text: "Post-surgical C. difficile colitis on broad-spectrum antibiotics. First-line treatment for first episode non-severe:", options: ["Fecal microbiota transplant", "Oral rifaximin", "Oral vancomycin or fidaxomicin", "IV vancomycin", "Oral metronidazole"], correct: "c", explanation: "Current IDSA guidelines: oral vancomycin or fidaxomicin first-line for all C. diff episodes." },
+  { id: 244, text: "Procalcitonin (PCT) levels are most useful in distinguishing:", options: ["Acute from chronic infections", "Upper from lower respiratory infections", "Bacterial sepsis from non-infectious SIRS", "Gram-positive from gram-negative", "Viral from fungal"], correct: "c", explanation: "PCT rises significantly in bacterial sepsis but remains low in non-infectious SIRS." },
+  { id: 245, text: "In decompensated heart failure with cardiogenic shock, the vasopressor/inotrope combination that best addresses low CO and hypotension is:", options: ["Milrinone + nitroprusside", "Phenylephrine alone", "Vasopressin + esmolol", "Dobutamine + norepinephrine", "Norepinephrine + phenylephrine"], correct: "d", explanation: "Dobutamine provides inotropy; norepinephrine provides vasopressor support — ideal combination." },
+  { id: 246, text: "MVC: BP 70/40, HR 140, GCS 12, distended abdomen, FAST positive in Morrison's pouch. Estimated blood loss class:", options: ["Class II (15-30%)", "Class III (30-40%)", "Class IV (>40%)", "Class II with neurogenic component", "Class I (<15%)"], correct: "c", explanation: "Class IV hemorrhagic shock: SBP <90, HR >140, altered consciousness, >40% blood loss." },
+  { id: 247, text: "Initial assessment of any critically ill patient in the ED follows:", options: ["History → Physical → Investigations → Treatment", "IV access → Cultures → Antibiotics → Imaging", "CT scan → Blood tests → Treatment → Reassessment", "Primary survey (ABCDE) → Resuscitation → Secondary survey → Definitive care", "Pain assessment → Vital signs → Disposition"], correct: "d", explanation: "ABCDE approach provides systematic, prioritized assessment of life-threatening conditions." },
+  { id: 248, text: "Adjuvant analgesics include all EXCEPT:", options: ["Amitriptyline", "Gabapentin", "Dexamethasone", "Ketamine", "Penicillin"], correct: "e", explanation: "Penicillin is an antibiotic, not an adjuvant analgesic." },
+  { id: 249, text: "A 28-year-old choking at restaurant, conscious, coughing forcefully, able to speak, SpO2 96%. Initial action:", options: ["Back blows then chest thrusts", "Heimlich maneuver immediately", "Direct laryngoscopy", "Encourage continued coughing", "Call for cricothyroidotomy equipment"], correct: "d", explanation: "Partial airway obstruction with effective coughing requires encouragement to cough; intervention may convert to complete obstruction." },
+  { id: 250, text: "A 40-year-old with cardiogenic shock 3 days post-anterior MI, new pansystolic murmur at left sternal border. Echo most likely shows:", options: ["Ventricular septal rupture", "Cardiac tamponade", "Mitral stenosis", "Aortic regurgitation", "LV free wall rupture"], correct: "a", explanation: "New pansystolic murmur 3-5 days post-MI suggests ventricular septal rupture, a mechanical complication." },
+  { id: 251, text: "The most important single investigation in a patient presenting with coma of unknown etiology is:", options: ["CT head", "Lumbar puncture", "Blood glucose level", "Toxicology screen", "EEG"], correct: "c", explanation: "Blood glucose is the single most critical bedside test — hypoglycemia is immediately life-threatening and rapidly reversible." },
+  { id: 252, text: "ICU patient on day 3 of MV: pH 7.50, PaCO2 35, HCO3 30. Receiving nasogastric suction. Primary acid-base disorder:", options: ["Respiratory alkalosis", "Compensated metabolic acidosis", "Mixed respiratory and metabolic alkalosis", "Metabolic alkalosis", "Respiratory acidosis with compensation"], correct: "d", explanation: "Elevated HCO3 with alkaline pH indicates metabolic alkalosis from NG suction (HCl loss)." },
+  { id: 253, text: "Equianalgesic dosing: oral morphine equivalent of fentanyl 100 mcg IV is approximately:", options: ["30 mg oral morphine", "100 mg oral morphine", "5 mg oral morphine", "60 mg oral morphine", "10 mg oral morphine"], correct: "a", explanation: "Fentanyl 100 mcg IV = morphine 10 mg IV = morphine 30 mg oral (oral bioavailability ~30%)." },
+  { id: 254, text: "The most reliable dynamic parameter for predicting fluid responsiveness in mechanically ventilated patients is:", options: ["Pulse pressure variation (PPV)", "Urine output", "Mean arterial pressure", "Central venous pressure", "Pulmonary artery occlusion pressure"], correct: "a", explanation: "PPV >13% predicts fluid responsiveness; static pressures (CVP, PAOP) are unreliable." },
+  { id: 255, text: "Deferoxamine is the specific chelation therapy for poisoning with:", options: ["Copper", "Lead", "Arsenic", "Mercury", "Iron"], correct: "e", explanation: "Deferoxamine chelates free iron, forming ferrioxamine (vin rose urine)." },
+  { id: 256, text: "Which lung volume cannot be measured by spirometry alone?", options: ["Tidal volume", "Expiratory reserve volume", "Inspiratory reserve volume", "Residual volume", "Vital capacity"], correct: "d", explanation: "Residual volume (air remaining after maximal exhalation) requires body plethysmography or helium dilution." },
+  { id: 257, text: "Cardiac output is determined by which equation?", options: ["CO = MAP / SVR", "CO = MAP × HR", "CO = SV / HR", "CO = HR × SV", "CO = HR × SVR"], correct: "d", explanation: "Cardiac output = Heart rate × Stroke volume. Normal CO ~5 L/min." },
+  { id: 258, text: "Target temperature management (TTM) after cardiac arrest with ROSC targets core temperature of:", options: ["37-38°C for 48 hours", "32-36°C for at least 24 hours", "30-32°C for 12 hours", "36.5-37.5°C with fever prevention", "28-30°C for 72 hours"], correct: "b", explanation: "Current guidelines: target 32-36°C for at least 24 hours; active fever prevention for 72 hours." },
+  { id: 259, text: "The coagulation cascade converges at which factor to form the common pathway?", options: ["Factor VII", "Factor X", "Factor IX", "Factor XIII", "Factor XII"], correct: "b", explanation: "Intrinsic and extrinsic pathways converge at Factor X, beginning the common pathway to thrombin and fibrin." },
+  { id: 260, text: "Inhalation injury in burn patients is suggested by all EXCEPT:", options: ["Enclosed space fire", "Carbonaceous sputum", "Burns confined to extremities only", "Singed nasal hairs", "Hoarseness and stridor"], correct: "c", explanation: "Burns confined to extremities without facial/airway involvement do not suggest inhalation injury." },
+  { id: 261, text: "A 40-year-old on OCPs with sudden pleuritic chest pain, hemoptysis, CT shows saddle embolus. BP 110/70, HR 105, troponin elevated, RV/LV ratio 1.2. Classification:", options: ["Chronic thromboembolic PH", "Low-risk PE", "Massive PE", "Submassive (intermediate-risk) PE", "Incidental PE"], correct: "d", explanation: "Submassive PE: hemodynamically stable with RV dysfunction and/or myocardial injury." },
+  { id: 262, text: "Protein C and Protein S are natural anticoagulants that inactivate:", options: ["Antithrombin III", "Factor X and IX", "Factors Va and VIIIa", "Thrombin directly", "Fibrinogen"], correct: "c", explanation: "Activated Protein C with Protein S inactivates Factors Va and VIIIa on phospholipid surfaces." },
+  { id: 263, text: "Most effective method of postoperative analgesia allowing patient-controlled dosing is:", options: ["Oral paracetamol alone", "TENS alone", "IM morphine q4h", "Rectal diclofenac", "Patient-controlled analgesia (PCA) with IV morphine"], correct: "e", explanation: "IV PCA provides superior pain control, patient satisfaction, and consistent plasma levels." },
+  { id: 264, text: "After successful resuscitation of anaphylactic shock, which medication is prescribed to prevent biphasic reaction and for discharge?", options: ["Prophylactic epinephrine autoinjector only", "IV immunoglobulin", "Long-acting antihistamines for 2 weeks", "Leukotriene receptor antagonists", "Oral prednisone for 3-5 days"], correct: "e", explanation: "Short course of oral corticosteroids (prednisone 40-50 mg daily for 3-5 days) helps prevent biphasic reactions." },
+  { id: 265, text: "A 30-year-old unconscious with blood glucose 1.4 mmol/L (25 mg/dL) on insulin therapy. Immediate treatment:", options: ["IV normal saline 1 L", "IV dextrose 50% (D50W) 50 mL", "Subcutaneous glucagon 1 mg", "Oral glucose gel", "Observation"], correct: "b", explanation: "Severe hypoglycemia with unconsciousness requires IV dextrose (50 mL D50W) for rapid correction." },
+  { id: 266, text: "Stroke volume is determined by three factors:", options: ["CO, HR, blood volume", "Systolic, diastolic, pulse pressure", "HR, rhythm, conductivity", "Preload, afterload, contractility", "Blood viscosity, vessel length, radius"], correct: "d", explanation: "Stroke volume is determined by preload, afterload, and contractility (Frank-Starling relationship)." },
+  { id: 267, text: "Phantom limb pain occurs in approximately what percentage of amputees?", options: ["100%", "10-15%", "Less than 5%", "30-40%", "50-80%"], correct: "e", explanation: "Phantom limb pain affects 50-80% of amputees and is a form of neuropathic pain." },
+  { id: 268, text: "Myasthenia gravis with respiratory failure: VC 800 mL (predicted 3200), MIP -15 cmH2O. Type of respiratory failure:", options: ["Combined Type I and II", "Type I (hypoxemic)", "Type II (hypercapnic)", "Type III (perioperative)", "Type IV (shock-related)"], correct: "c", explanation: "Neuromuscular weakness causes pump failure → inadequate ventilation → CO2 retention (Type II)." },
+  { id: 269, text: "Known difficult airway requiring emergency intubation. Device of choice for first attempt:", options: ["Direct laryngoscopy Macintosh", "Video laryngoscopy", "Blind nasotracheal intubation", "Retrograde intubation", "LMA insertion only"], correct: "b", explanation: "Video laryngoscopy improves glottic view and first-pass success in anticipated difficult airways." },
+  { id: 270, text: "During adult CPR without advanced airway, correct compression-to-ventilation ratio for single rescuer is:", options: ["15:1", "15:2", "30:2", "Continuous compressions only", "5:1"], correct: "c", explanation: "For adult CPR without advanced airway, ratio is 30 compressions to 2 ventilations." },
+  { id: 271, text: "Acute chest pain, diaphoresis, ECG: ST elevation in leads II, III, aVF. Diagnosis:", options: ["Inferior wall STEMI", "Posterior wall STEMI", "Right ventricular MI", "Anterior wall STEMI", "Lateral wall STEMI"], correct: "a", explanation: "ST elevation in II, III, aVF indicates inferior wall STEMI (usually RCA occlusion)." },
+  { id: 272, text: "Neonate born at 28 weeks with respiratory distress shortly after birth. Most likely cause is deficiency of:", options: ["IgA in airways", "Angiotensin-converting enzyme", "Alpha-1 antitrypsin", "Pulmonary surfactant", "Nitric oxide"], correct: "d", explanation: "Premature neonates have insufficient surfactant production → neonatal RDS (hyaline membrane disease)." },
+  { id: 273, text: "The Surviving Sepsis Campaign 'Hour-1 Bundle' includes all EXCEPT:", options: ["Blood cultures before antibiotics", "Initiate corticosteroids within first hour", "30 mL/kg crystalloid for hypotension or lactate ≥4", "Broad-spectrum antibiotics", "Measure serum lactate"], correct: "b", explanation: "Corticosteroids are considered only for vasopressor-refractory shock, not as a first-hour intervention." },
+  { id: 274, text: "Supportive care in ICU for poisoned patients includes all EXCEPT:", options: ["Routine prophylactic antibiotics", "Continuous cardiac monitoring", "Seizure management with benzodiazepines", "Serial vital signs and neuro checks", "Temperature management"], correct: "a", explanation: "Prophylactic antibiotics are NOT indicated unless there is aspiration or confirmed infection." }
+];
+
+// ============================================================
+// APP STATE
+// ============================================================
+let currentIndex = 0;
+let userAnswers = new Array(QUESTIONS_DATA.length).fill(null);
+let score = 0;
+
+// DOM elements
+const questionTextEl = document.getElementById("questionText");
+const optionsContainer = document.getElementById("optionsContainer");
+const feedbackArea = document.getElementById("feedbackArea");
+const explanationTextEl = document.getElementById("explanationText");
+const nextBtn = document.getElementById("nextBtn");
+const resetBtn = document.getElementById("resetBtn");
+const questionCounterSpan = document.getElementById("questionCounter");
+const progressFill = document.getElementById("progressFill");
+const scoreDisplay = document.getElementById("scoreDisplay");
+
+function updateStats() {
+    const answeredCount = userAnswers.filter(a => a !== null).length;
+    const total = QUESTIONS_DATA.length;
+    const percent = total === 0 ? 0 : Math.round((score / total) * 100);
+    scoreDisplay.innerHTML = `✅ Score: ${score} / ${total} (${percent}%) | 📝 Answered: ${answeredCount}/${total}`;
+    const progressPercent = ((currentIndex + 1) / total) * 100;
+    progressFill.style.width = `${progressPercent}%`;
+    questionCounterSpan.innerText = `Question ${currentIndex + 1} / ${total}`;
+}
+
+function renderCurrentQuestion() {
+    const q = QUESTIONS_DATA[currentIndex];
+    if (!q) return;
+    questionTextEl.innerHTML = `<strong>Q${q.id}.</strong> ${q.text}`;
+    
+    const optionLetters = ['a', 'b', 'c', 'd', 'e'];
+    let optionsHtml = '';
+    q.options.forEach((opt, idx) => {
+        const letter = optionLetters[idx];
+        const isAnswered = userAnswers[currentIndex] !== null;
+        const selectedLetter = userAnswers[currentIndex] ? userAnswers[currentIndex].selected : null;
+        let borderStyle = '';
+        if (isAnswered && selectedLetter === letter) {
+            const isAnsCorrect = userAnswers[currentIndex].isCorrect;
+            borderStyle = isAnsCorrect ? 'border: 2px solid #2b8c4a; background:#e0f2e9;' : 'border: 2px solid #c73a2b; background:#ffe0de;';
+        }
+        optionsHtml += `<button class="option-btn" data-letter="${letter}" ${isAnswered ? 'disabled' : ''} style="${borderStyle}">${letter.toUpperCase()}. ${opt}</button>`;
+    });
+    optionsContainer.innerHTML = optionsHtml;
+    
+    if (userAnswers[currentIndex] !== null) {
+        const answerData = userAnswers[currentIndex];
+        const qData = QUESTIONS_DATA[currentIndex];
+        const correctLetter = qData.correct;
+        const correctText = qData.options[optionLetters.indexOf(correctLetter)] || "";
+        if (answerData.isCorrect) {
+            feedbackArea.className = "feedback correct";
+            document.getElementById("feedbackIcon").innerHTML = "✅ Correct!";
+            explanationTextEl.innerHTML = `<strong>Explanation:</strong> ${qData.explanation}<br><span style="font-size:0.85rem;">✔ Your answer: ${answerData.selected.toUpperCase()}. Correct: ${correctLetter.toUpperCase()}. ${correctText}</span>`;
+        } else {
+            feedbackArea.className = "feedback wrong";
+            document.getElementById("feedbackIcon").innerHTML = "❌ Incorrect";
+            explanationTextEl.innerHTML = `<strong>Explanation:</strong> ${qData.explanation}<br><span style="font-size:0.85rem;">✘ You chose: ${answerData.selected.toUpperCase()}. Correct: ${correctLetter.toUpperCase()}. ${correctText}</span>`;
+        }
+        feedbackArea.style.display = "flex";
+    } else {
+        feedbackArea.className = "feedback";
+        feedbackArea.style.display = "none";
+    }
+    
+    document.querySelectorAll('.option-btn:not([disabled])').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const selectedLetter = btn.getAttribute('data-letter');
+            handleAnswer(selectedLetter);
+        });
+    });
+    
+    updateStats();
+}
+
+function handleAnswer(selectedLetter) {
+    if (userAnswers[currentIndex] !== null) return;
+    const q = QUESTIONS_DATA[currentIndex];
+    const isCorrect = (selectedLetter === q.correct);
+    userAnswers[currentIndex] = { selected: selectedLetter, isCorrect: isCorrect };
+    if (isCorrect) score++;
+    renderCurrentQuestion();
+}
+
+function nextQuestion() {
+    if (userAnswers[currentIndex] === null) {
+        alert("Please answer the current question before proceeding.");
+        return;
+    }
+    if (currentIndex + 1 < QUESTIONS_DATA.length) {
+        currentIndex++;
+        renderCurrentQuestion();
+    } else {
+        alert(`🎉 Quiz completed! Final score: ${score}/${QUESTIONS_DATA.length} (${Math.round((score/QUESTIONS_DATA.length)*100)}%)`);
+    }
+}
+
+function resetQuiz() {
+    if (confirm("Reset all progress? All answers will be erased.")) {
+        userAnswers = new Array(QUESTIONS_DATA.length).fill(null);
+        score = 0;
+        currentIndex = 0;
+        renderCurrentQuestion();
+    }
+}
+
+nextBtn.addEventListener("click", nextQuestion);
+resetBtn.addEventListener("click", resetQuiz);
+
+renderCurrentQuestion();
+</script>
+</body>
+</html>
